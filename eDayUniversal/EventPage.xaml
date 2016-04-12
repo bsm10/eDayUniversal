@@ -1,0 +1,118 @@
+﻿<Page
+    x:Class="eDay.EventPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:eDay"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:eDay.Data"
+          d:DataContext="{Binding events, 
+          Source={d:DesignData Source=/DataModel/eDayData.json,IsDesignTimeCreatable=True,
+                               Type = data:eDayDataSource}}" Background="#FF38401C"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <local:IntToBool x:Key="DoubleToBool"/>
+    </Page.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="{Binding [1].eventsByDay[2].ColorEvent}">
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--TODO: Содержимое должно размещаться в следующей сетке-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0"
+            DataContext="{Binding [1].eventsByDay[2]}">
+            <Grid x:Name="grid" Margin="0,0,0,9.5" Background="{Binding ColorEvent}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" />
+                    <ColumnDefinition Width="230" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                                    TextWrapping="Wrap"
+                                    Pivot.SlideInAnimationGroup="1"
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                                    Style="{ThemeResource ListViewItemTextBlockStyle}"
+                                    Margin="0,6" FontSize="29.333" Text="{Binding time}" RenderTransformOrigin="0.491,0.57" FontWeight="Bold" VerticalAlignment="Center"/>
+                <StackPanel Grid.Row="1" Grid.Column="1">
+                    <TextBlock FontSize="13.333" Margin="10,0,0,0">Эксперт</TextBlock>
+                    <TextBlock Grid.Column="1" Grid.Row="1"
+                                    TextWrapping="Wrap"
+                                    Pivot.SlideInAnimationGroup="1"
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                                    Style="{ThemeResource ListViewItemTextBlockStyle}"
+                                    Margin="10,0,0,0" FontSize="18" Text="{Binding expert_name}" RenderTransformOrigin="0.491,0.57" HorizontalAlignment="Left" Width="Auto" VerticalAlignment="Center" FontFamily="Segoe WP"/>
+
+                </StackPanel>
+                <CheckBox Grid.Column="2"
+                                          IsChecked="{Binding confirmed, Converter={StaticResource DoubleToBool}, Mode=TwoWay}" 
+                                          Margin="0,21,-116.987,0" 
+                                          Width="169" 
+                                          Height="66"
+                                          HorizontalAlignment="Right" Background="{x:Null}" 
+                                          RequestedTheme="Light" Grid.RowSpan="2"
+                                          />
+                <TextBlock Grid.Column="1" Grid.Row="0"
+                                    TextWrapping="WrapWholeWords"
+                                    Pivot.SlideInAnimationGroup="2" 
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True" 
+                                    Style="{ThemeResource ListViewItemContentTextBlockStyle}"
+                                    Margin="10,0,0,0" 
+                                    FontSize="24"
+                                    Text="{Binding event_name}"
+                                    Foreground="White" FontWeight="Bold" VerticalAlignment="Center"/>
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontFamily="Segoe WP" Margin="10,0,0,0">
+                        kkal
+                    </TextBlock>
+                    <TextBlock      TextWrapping="WrapWholeWords"
+                                    Pivot.SlideInAnimationGroup="2" 
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True" 
+                                    Style="{ThemeResource ListViewItemContentTextBlockStyle}" 
+                                    FontSize="13.333"
+                                       Width="Auto"
+                                    Text="{Binding details.kkal}" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center" Margin="20,0,0,0"/>
+
+                </StackPanel>
+                <ListBox x:Name="listItems" Grid.ColumnSpan="3"
+                                    Margin="0"
+                                    Grid.Row="3" 
+                                    ItemsSource="{Binding details.items}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                         FontSize="14.667" ScrollViewer.VerticalScrollBarVisibility="Auto" Background="{Binding ColorEvent}" Foreground="{ThemeResource ListBoxItemSelectedForegroundThemeBrush}" BorderBrush="White" VerticalAlignment="Top"
+                         >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Assets/new-item.png" Width="25">
+                                    
+                                </Image>
+                                <TextBlock x:Name="txtItem"
+                                                       SelectionHighlightColor="{x:Null}"
+                                                        Text="{Binding caption}"
+                                                       Width="Auto" Margin="10,0,0,0" FontSize="16" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+                <Image x:Name="image" Margin="0" Grid.RowSpan="2" 
+                                       Source="{Binding img.path}" Grid.Row="1"/>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</Page>

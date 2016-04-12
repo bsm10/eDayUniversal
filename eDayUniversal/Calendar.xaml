@@ -1,0 +1,73 @@
+﻿<UserControl x:Name="CalendarControl"
+    x:Class="eDay.Calendar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:eDay"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:eDay"
+    mc:Ignorable="d"
+    d:DesignHeight="350" 
+    VerticalContentAlignment="Stretch" 
+    HorizontalAlignment="Center"
+             MaxWidth="390" MinWidth="380" MaxHeight="350" MinHeight="355" Width="350">
+    <UserControl.DataContext>
+        <data:MonthCalendar/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="46"/>
+            <RowDefinition Height="46"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <GridView x:Name="gridView" 
+                  Grid.Row="2" 
+                  ItemsSource="{Binding days}" 
+                  CanReorderItems="False"
+                  FontSize="26.667" Margin="0"
+                  VerticalContentAlignment="Stretch"
+                  HorizontalContentAlignment="Stretch" ItemClick="gridView_ItemClick" Tapped="gridView_Tapped" >
+
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="53" Height="50">
+                        <TextBlock
+                            TextAlignment="Center"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            FontSize="30"
+                            Text="{Binding Mode=OneWay}"
+                            Foreground="{Binding colorDay}"
+                            FontFamily="MV Boli"
+                            Width="50" Tapped="TextBlock_Tapped"/>
+                        <Border x:Name="borderNow" BorderBrush="#FF0DA0F9" BorderThickness="2" Margin="2.5" Visibility="{Binding VisibilityBorderToday}">
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+
+        </GridView>
+        <StackPanel Height="Auto" Grid.Row="0" Background="{Binding Background, ElementName=gridView}" Orientation="Horizontal" Margin="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalAlignment="Stretch" HorizontalAlignment="Center" RenderTransformOrigin="-0.005,0.543">
+            <Button x:Name="buttonBackMonth" Margin="-180,0,-3,0" Content="&lt;" RenderTransformOrigin="0.505,0.448" Height="46" Width="50" HorizontalAlignment="Left" BorderThickness="0" Foreground="#FF09FC03"/>
+            <TextBlock x:Name="textBlock" Margin="0" TextWrapping="Wrap" Text="{Binding monthMMMMyyyy, Mode=OneWay}" TextAlignment="Center" FontSize="30" IsDoubleTapEnabled="False" FontFamily="MV Boli" VerticalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Height="Auto" Grid.Row="1" Background="{Binding Background, ElementName=gridView}" Orientation="Horizontal" Margin="0,0,0,0.111" ScrollViewer.VerticalScrollBarVisibility="Disabled" VerticalAlignment="Stretch">
+            <TextBlock x:Name="textBlock1" Margin="10,0,0,0" TextWrapping="Wrap" Text="Пн" TextAlignment="Center" FontSize="30" VerticalAlignment="Center" FontFamily="MV Boli"/>
+            <TextBlock x:Name="textBlock1_Copy" Margin="17,0,0,0" TextWrapping="Wrap" Text="Вт" TextAlignment="Center" FontSize="30" VerticalAlignment="Center" FontFamily="MV Boli"/>
+            <TextBlock x:Name="textBlock1_Copy1" Margin="20,0,0,0" TextWrapping="Wrap" Text="Ср" TextAlignment="Center" FontSize="30" VerticalAlignment="Center" FontFamily="MV Boli"/>
+            <TextBlock x:Name="textBlock1_Copy2" Margin="20,0,0,0" TextWrapping="Wrap" Text="Чт" TextAlignment="Center" FontSize="30" VerticalAlignment="Center" FontFamily="MV Boli"/>
+            <TextBlock x:Name="textBlock1_Copy3" Margin="20,0,0,0" TextWrapping="Wrap" Text="Пт" TextAlignment="Center" FontSize="30" VerticalAlignment="Center" FontFamily="MV Boli"/>
+            <TextBlock x:Name="textBlock1_Copy4" Margin="17,0,0,0" TextWrapping="Wrap" Text="Сб" TextAlignment="Center" FontSize="30" VerticalAlignment="Center" Foreground="Red" FontFamily="MV Boli"/>
+            <TextBlock x:Name="textBlock1_Copy5" Margin="17,0,0,0" TextWrapping="Wrap" Text="Вс" TextAlignment="Center" FontSize="30" VerticalAlignment="Center" Foreground="#FFFA0202" FontFamily="MV Boli"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

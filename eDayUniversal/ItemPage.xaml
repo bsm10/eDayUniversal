@@ -1,0 +1,104 @@
+﻿<Page
+    x:Class="eDay.ItemPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:eDay"
+    xmlns:data="using:eDay.Data"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DataContext="{Binding events, Source={d:DesignData Source=/DataModel/eDayData.json, Type=data:eDayDataSource}}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.DataContext>
+        <local:Event/>
+    </Page.DataContext>
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <ContinuumNavigationTransitionInfo/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid x:Name="LayoutRoot" Width="399">
+        <Grid.DataContext>
+            <local:Event/>
+        </Grid.DataContext>
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="179"/>
+            <ColumnDefinition Width="191"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Панель заголовка-->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0.444">
+            <TextBlock x:Uid="Header" Text="Everyday" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock x:Name="HeaderEvent" Text="{Binding event_name}" Style="{ThemeResource HeaderTextBlockStyle}" Margin="0,-6.5,-212,26.5" CharacterSpacing="{ThemeResource PivotHeaderItemCharacterSpacing}" />
+        </StackPanel>
+        <Grid Grid.Row="1" Margin="19,9.556,19,49.444" Grid.RowSpan="2">
+            <TextBlock x:Name="textBlock" TextWrapping="Wrap" 
+                    Text="килокаллории" FontSize="21.333" Width="Auto" Margin="0,0,0,0" VerticalAlignment="Center" >
+                <TextBlock.Foreground>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF7F6522" Offset="1"/>
+                        <GradientStop Color="#FFFFD15A" Offset="0.253"/>
+                        <GradientStop Color="#FF39D49A" Offset="0.974"/>
+                    </LinearGradientBrush>
+                </TextBlock.Foreground>
+            </TextBlock>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1" Margin="19,9.556,19,49.444" Grid.RowSpan="2">
+            <TextBlock TextWrapping="Wrap" 
+                    Text="{Binding details.kkal}" FontSize="21.333" Width="Auto" Margin="0,0,0,0" VerticalAlignment="Center" Foreground="{Binding Foreground, ElementName=textBlock}" />
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="19,9.556,19,49.444" Grid.RowSpan="2">
+            <TextBlock TextWrapping="Wrap" 
+                    Text="жиры" FontSize="18.667" Width="Auto" Margin="0,0,0,0" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1" Margin="19,9.556,19,49.444" Grid.RowSpan="2">
+            <TextBlock TextWrapping="Wrap" 
+                    Text="{Binding details.fats}" FontSize="18.667" Width="Auto" Margin="0,0,0,0" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Grid.Row="3" Margin="19,9.556,19,49.444" Grid.RowSpan="2">
+            <TextBlock TextWrapping="Wrap" 
+                    Text="углеводы" FontSize="18.667" Width="Auto" Margin="0,0,0,0" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="1" Margin="19,9.556,19,49.444" Grid.RowSpan="2">
+            <TextBlock TextWrapping="Wrap" 
+                    Text="{Binding details.carbs}" FontSize="18.667" Width="Auto" Margin="0,0,0,0" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Grid.Row="4" Margin="19,9.556,19,49.444" Grid.RowSpan="2">
+            <TextBlock TextWrapping="Wrap" 
+                    Text="клетчатка" FontSize="18.667" Width="Auto" Margin="0,0,0,0" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Grid.Row="4" Grid.Column="1" Margin="19,9.556,19,49.444" Grid.RowSpan="2">
+            <TextBlock TextWrapping="Wrap" 
+                    Text="{Binding details.cellulose}" FontSize="18.667" Width="Auto" Margin="0,0,0,0" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Grid.Row="5" Margin="19,9.556,19,49.444" Grid.RowSpan="2">
+            <TextBlock TextWrapping="Wrap" 
+                    Text="белки" FontSize="18.667" Width="Auto" Margin="0,0,0,0" VerticalAlignment="Center" />
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="1" Margin="19,9.556,19,49.444" Grid.RowSpan="2">
+            <TextBlock TextWrapping="Wrap" 
+                    Text="{Binding details.proteins}" FontSize="18.667" Width="Auto" Margin="0,0,0,0" VerticalAlignment="Center" />
+        </Grid>
+
+    </Grid>
+</Page>

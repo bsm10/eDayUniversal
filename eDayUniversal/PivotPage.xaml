@@ -1,0 +1,248 @@
+﻿<Page
+    x:Class="eDay.PivotPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:eDay"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:eDay.Data"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
+    d:DataContext="{Binding events, 
+    Source={d:DesignData Source=/DataModel/eDayData.json, IsDesignTimeCreatable=True,
+    Type = data:eDayDataSource}}"
+>
+    <Page.Resources>
+        <local:CheckToVisibility x:Key="CheckToVisibility"/>
+        <JumpListItemBackgroundConverter x:Key="JumpListItemBackgroundConverter"/>
+        <local:IntToBool x:Key="IntToBool"/>
+        <local:ClassToColor x:Key="ClassToColor"/>
+        <local:ConfirmedToOpacity x:Key="CheckToOpacity"/>
+        <Flyout x:Name="flyoutEvent" Closed="flyoutEvent_Closed">
+            <Grid x:Name="EventLayoutRoot">
+                <Grid.DataContext>
+                    <local:Event/>
+                </Grid.DataContext>
+                <Grid.ChildrenTransitions>
+                    <TransitionCollection>
+                        <EntranceThemeTransition/>
+                    </TransitionCollection>
+                </Grid.ChildrenTransitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid x:Name="LayoutRoot" Background="{Binding event_class, Converter={StaticResource ClassToColor}}">
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <EntranceThemeTransition/>
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--TODO: Содержимое должно размещаться в следующей сетке-->
+                    <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+                        <Grid x:Name="grid" Margin="0,0,0,9.5" Background="{Binding event_class, Converter={StaticResource ClassToColor}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="230" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                    TextWrapping="Wrap"
+                                    Pivot.SlideInAnimationGroup="1"
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                                    Margin="0,6" FontSize="29.333" Text="{Binding time}" 
+                                RenderTransformOrigin="0.491,0.57"
+                                FontWeight="Bold" VerticalAlignment="Center" Foreground="White"/>
+                            <StackPanel Grid.Row="1" Grid.Column="1">
+                                <TextBlock FontSize="13.333" Margin="10,0,0,0">
+                                	<Run Text="Эксперт"/>
+                                </TextBlock>
+                                <TextBlock Grid.Column="1" Grid.Row="1"
+                                    TextWrapping="Wrap"
+                                    Pivot.SlideInAnimationGroup="1"
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                                    Margin="10,0,0,0" FontSize="18" Text="{Binding expert_name}" RenderTransformOrigin="0.491,0.57" HorizontalAlignment="Left" Width="Auto" VerticalAlignment="Center" FontFamily="Segoe WP"/>
+
+                            </StackPanel>
+                            <CheckBox x:Name="checkBoxCofirm" Grid.Column="2"
+                                    IsChecked="{Binding confirmed, Converter={StaticResource IntToBool}, Mode=TwoWay}" 
+                                    Margin="0,21,-116.987,0" 
+                                    Width="169" 
+                                    Height="66"
+                                    HorizontalAlignment="Right" 
+                                    RequestedTheme="Light" Grid.RowSpan="2"
+                                    BorderBrush="White"
+                                    Tapped="checkBoxCofirm_Tapped"/>
+                            <TextBlock Grid.Column="1" Grid.Row="0"
+                                    TextWrapping="WrapWholeWords"
+                                    Pivot.SlideInAnimationGroup="2" 
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True" 
+                                    Margin="10,0,0,0" 
+                                    FontSize="24"
+                                    Text="{Binding event_name}"
+                                    Foreground="White" FontWeight="Bold" VerticalAlignment="Center"/>
+                            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock HorizontalAlignment="Left"
+                                           VerticalAlignment="Center" FontSize="14" 
+                                           Foreground="White"
+                                           Margin="10,0,0,0" 
+                                           FontFamily="Segoe WP">
+                                	<Run Text="kkal"/>
+                                </TextBlock>
+                                <TextBlock      TextWrapping="WrapWholeWords"
+                                    Pivot.SlideInAnimationGroup="2" 
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True" 
+                                    FontSize="13.333"
+                                       Width="Auto"
+                                    Foreground="White"
+                                    Text="{Binding details.kkal}" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center" Margin="20,0,0,0"/>
+
+                            </StackPanel>
+                            <ListBox x:Name="listItems" Grid.ColumnSpan="3"
+                                    Margin="0"
+                                    Grid.Row="3" 
+                                    ItemsSource="{Binding details.items}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                                    FontSize="14.667" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                    Background="{Binding event_class, Converter={StaticResource ClassToColor}}"
+                                    Foreground="{ThemeResource ListBoxItemSelectedForegroundThemeBrush}" BorderBrush="White" VerticalAlignment="Top">
+
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="Assets/new-item.png" Width="25"/>
+                                            <ScrollViewer VerticalScrollMode="Disabled"
+                                                          HorizontalScrollMode="Enabled"
+                                                          BorderBrush="#FFCB2B2B"
+                                                          BorderThickness="1"
+                                                          Height="50" Width="200">
+                                                <TextBlock x:Name="txtItem"
+                                                       SelectionHighlightColor="{x:Null}"
+                                                       Text="{Binding caption}"
+                                                       Margin="10,0,0,0"
+                                                       FontSize="16" HorizontalAlignment="Left" 
+                                                       >
+                                                </TextBlock>
+                                            </ScrollViewer>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+
+                            </ListBox>
+                            <Image x:Name="image" Margin="0" Grid.RowSpan="2" 
+                                       Source="{Binding img.path}" Grid.Row="1"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Flyout>
+
+    </Page.Resources>
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                    <CommonNavigationTransitionInfo IsStaggeringEnabled="True"/>
+                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    <Grid>
+        <Border x:Name="StatusBorder" Grid.Row="0" 
+                Visibility="Collapsed" Tapped="StatusBorder_Tapped" Margin="0,0,0,0"
+                Height="50" VerticalAlignment="Bottom">
+            <TextBlock x:Name="StatusBlock" Foreground="White" Margin="12, 10, 12, 10" TextWrapping="Wrap" FontSize="18.667"/>
+        </Border>
+        <Pivot x:Uid="Pivot" Title="EVERYDAY" x:Name="pivot"
+               CommonNavigationTransitionInfo.IsStaggerElement="True" 
+               Margin="0" ItemsSource="{Binding}" BorderThickness="0"
+               >
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock FontSize="26" Text="{Binding Day, Mode=OneWay}" Margin="0,5,0,0"/>
+                        <TextBlock FontSize="24" Text="{Binding Date, Mode=OneWay}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <Pivot.ItemTemplate>
+                <DataTemplate>
+                    <GridView x:Name="gridView" 
+                        HorizontalAlignment="Center"
+                        VerticalContentAlignment="Stretch" 
+                        ItemsSource="{Binding eventsByDay}"
+                        ItemClick="GridView_ItemClick" 
+                        IsItemClickEnabled="True" FontSize="18.667" >
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid x:Name="gridItem" Width="Auto" Margin="0"
+                                      FlyoutBase.AttachedFlyout="{StaticResource flyoutEvent}" 
+                                      Opacity="{Binding confirmed, 
+                                      Converter={StaticResource CheckToOpacity}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="60"/>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+                                    <Border x:Name="border" Grid.ColumnSpan="2"
+                                            Margin="2" Grid.RowSpan="2" Canvas.ZIndex="-1" 
+                                            Background="{Binding event_class, Converter={StaticResource ClassToColor}}" 
+                                            BorderThickness="2"/>
+                                    <TextBlock TextWrapping="Wrap"
+                                                Pivot.SlideInAnimationGroup="1"
+                                                CommonNavigationTransitionInfo.IsStaggerElement="True"
+                                                Margin="0" FontSize="24" HorizontalAlignment="Left"
+                                                Text="{Binding time}" RenderTransformOrigin="0.491,0.57" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center" FontFamily="Segoe WP Black" Foreground="White"/>
+                                    <TextBlock
+                                                Pivot.SlideInAnimationGroup="1"
+                                                CommonNavigationTransitionInfo.IsStaggerElement="True"
+                                                Margin="15,0,0,0" FontSize="18"
+                                                Text="{Binding event_name}" 
+                                                FontWeight="Bold" 
+                                                TextTrimming="None" TextAlignment="Center" 
+                                                Width="Auto"
+                                                TextWrapping="WrapWholeWords"
+                                                HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2" Foreground="White"/>
+                                    <Image x:Name="image" Margin="10,0,0,0"
+                                       d:LayoutOverrides="LeftPosition, 
+                                           RightPosition" Width="50" Height="50"
+                                           Source="{Binding img.path}" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </DataTemplate>
+            </Pivot.ItemTemplate>
+        </Pivot>
+    </Grid>
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="AddEventButton" Label="добавить" Icon="Add" Click="AddAppBarButton_Click" />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="MessageButton" Label="уведомления" Icon="Message"  />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="ProfileButton"  Label="профиль" Icon="ContactPresence" />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="SettingsButton" Label="настройки" Icon="Setting" />
+            <CommandBar.SecondaryCommands>
+                <AppBarToggleButton x:Uid="AllTasks" x:Name="AllTasks" Label="Отображать все задачи" />
+                <AppBarToggleButton x:Uid="RepeatBox" x:Name="RepeatBox" Label="Повторять напоминание"/>
+                <AppBarButton x:Uid="CalendarButton" x:Name="CalendarButton" Label="Календарь" />
+
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+
+    </Page.BottomAppBar>
+
+</Page>

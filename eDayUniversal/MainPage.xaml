@@ -1,0 +1,175 @@
+﻿<Page
+    x:Class="eDay.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:eDay"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:eDay.Data"
+    mc:Ignorable="d"
+    DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Mode=Self}}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalContentAlignment="Stretch">
+    <Page.Resources>
+        <local:IntToBool x:Key="DoubleToBool"/>
+    </Page.Resources>
+
+    <Grid x:Name="LayoutRoot"
+          d:DataContext="{Binding events, 
+          Source={d:DesignData Source=/DataModel/eDayData.json,
+                               Type = data:eDayDataSource}}" Background="#FF38401C">
+
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <EntranceThemeTransition/>
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="139.444"/>
+            <RowDefinition/>
+            <!--<RowDefinition Height="150"/>-->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--Панель заголовка-->
+        <StackPanel x:Name="stackHeader" Grid.Row="0" Margin="19,0,0,0.444">
+            <TextBlock x:Name="AppHeader" Text="Everyday" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock x:Name="MainHeader" Text="Расписание" Margin="0,-6.5,10.111,26.5" Style="{ThemeResource HeaderTextBlockStyle}"/>
+        </StackPanel>
+
+        <!--TODO: Содержимое должно размещаться в следующей сетке-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,10.556,10,-0.111" Grid.RowSpan="2">
+            <ListView x:Name="listView"
+                    IsItemClickEnabled="True"
+                    ItemClick="ItemView_ItemClick"
+                    ContinuumNavigationTransitionInfo.ExitElementContainer="True" 
+                    Width="Auto"
+                    ItemsSource="{Binding}" 
+                    Background="#FFD2DDAC" Margin="0,0,0,10">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid x:Name="grid" Margin="0,0,0,9.5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="230" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="1" Grid.Row="1"
+                                    TextWrapping="Wrap"
+                                    Pivot.SlideInAnimationGroup="1"
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                                    Style="{ThemeResource ListViewItemTextBlockStyle}"
+                                    Margin="0,8,0,12" FontSize="21.333" HorizontalAlignment="Left" Text="{Binding time}" Foreground="#FFA87A52" RenderTransformOrigin="0.491,0.57" FontWeight="Bold" Width="51"/>
+                            <TextBlock Grid.Column="1" Grid.Row="1"
+                                    TextWrapping="Wrap"
+                                    Pivot.SlideInAnimationGroup="1"
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True"
+                                    Style="{ThemeResource ListViewItemTextBlockStyle}"
+                                    Margin="55.913,12,8.087,17" FontSize="14" Text="{Binding expert_name}" Foreground="#FF2E422C" RenderTransformOrigin="0.491,0.57" HorizontalAlignment="Center" Width="Auto"/>
+                            <CheckBox Grid.Column="2"
+                                          IsChecked="{Binding confirmed, Converter={StaticResource DoubleToBool}, Mode=TwoWay}" 
+                                          Margin="0,21,-116.987,0" 
+                                          Width="169" 
+                                          Height="66" 
+                                          BorderBrush="#FF368B56"
+                                          HorizontalAlignment="Right" 
+                                          Foreground="#FF3D6C85" Background="{x:Null}" 
+                                          RequestedTheme="Light" Grid.RowSpan="2"
+                                          />
+                            <TextBlock Grid.Column="1" Grid.Row="0"
+                                    TextWrapping="WrapWholeWords"
+                                    Pivot.SlideInAnimationGroup="2" 
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True" 
+                                    Style="{ThemeResource ListViewItemContentTextBlockStyle}"
+                                    Margin="0,10,12.087,8" 
+                                    FontSize="24"
+                                    Text="{Binding event_name}"
+                                    Foreground="#FF030303" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="1"
+                                    TextWrapping="WrapWholeWords"
+                                    Pivot.SlideInAnimationGroup="2" 
+                                    CommonNavigationTransitionInfo.IsStaggerElement="True" 
+                                    Style="{ThemeResource ListViewItemContentTextBlockStyle}" 
+                                    FontSize="10"
+                                       Width="Auto"
+                                    Text="{Binding date}"
+                                    Foreground="#FF030303" FontWeight="Bold" Grid.Column="1"/>
+                            <Rectangle
+                                           Fill="#FFFAFAFA" Canvas.ZIndex="-2"
+                                           Grid.ColumnSpan="3"
+                                    Grid.RowSpan="2"
+                                           RadiusY="10" 
+                                           RadiusX="10" 
+                                           StrokeThickness="1.5" 
+                                           Margin="10,2,10.087,2" 
+                                           Stroke="#FF3D883E"/>
+                            <Rectangle
+                                    Margin="17,41,16.013,10"
+                                Grid.Row="1" Grid.ColumnSpan="3"
+                                Canvas.ZIndex="-4" Fill="#FFB1CA77" RadiusX="5" RadiusY="5" Grid.RowSpan="2">
+                            </Rectangle>
+                            <ListBox x:Name="listItems" Grid.ColumnSpan="3"
+                                    Margin="24,6,26.013,14"
+                                    Grid.Row="2"
+                                    Background="{x:Null}"
+                                    Foreground="#FF395668" ItemsSource="{Binding details.items}"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Auto" FontSize="14.667" ScrollViewer.VerticalScrollBarVisibility="Auto" Tapped="listItems_Tapped">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock x:Name="txtItem"
+                                                       SelectionHighlightColor="{x:Null}"
+                                                        Text="{Binding caption}"
+                                                       Width="Auto" Tapped="txtItem_Tapped">
+
+                                        </TextBlock>
+
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+
+                            </ListBox>
+                            <Image x:Name="image" Margin="17,21,10.087,17" Grid.RowSpan="2" 
+                                       Source="{Binding img.path}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <!--<Grid xmlns:src="using:eDay" Grid.Row="2" x:Name="ContentRoot2" Margin="19,9.778,10,-0.111" d:LayoutOverrides="TopPosition, BottomPosition"/>-->
+        <DatePicker HorizontalAlignment="Center" Height="50" VerticalAlignment="Top" Width="165" DateChanged="DatePicker_DateChanged" Margin="225,0,10,0" HorizontalContentAlignment="Center"/>
+        <Border x:Name="StatusBorder" Grid.Row="2" Visibility="Collapsed" Tapped="StatusBorder_Tapped" Margin="0,0.111,0,-0.111">
+            <TextBlock x:Name="StatusBlock" Foreground="White" FontWeight="Bold" Margin="12, 10, 12, 10" TextWrapping="Wrap"/>
+        </Border>
+    </Grid>
+    <Page.BottomAppBar>
+        <CommandBar Background="#FF38401C" AllowDrop="True" BorderBrush="#FF7F9A71" ClosedDisplayMode="Compact">
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="AddEventButton" Label="добавить" Icon="Add" Click="AddAppBarButton_Click" />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="MessageButton" Label="уведомления" Icon="Message"  />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="ProfileButton"  Label="профиль" Icon="ContactPresence" />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="SettingsButton" Label="настройки" Icon="Setting" />
+            <CommandBar.SecondaryCommands>
+                <AppBarToggleButton x:Uid="RepeatBox" x:Name="RepeatBox" Label="Повторять напоминание"/>
+                <AppBarButton x:Uid="CalendarButton" x:Name="CalendarButton" Label="Календарь" Tapped="CalendarButton_Tapped" Click="CalendarButton_Click" />
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+    <!--<Page.TopAppBar>
+        <CommandBar Background="{x:Null}" AllowDrop="True" BorderBrush="{x:Null}" ClosedDisplayMode="Compact">
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="AddEventButton1" Label="добавить" Icon="Add" Click="AddAppBarButton_Click" />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="MessageButton1" Label="уведомления" Icon="Message"  />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="ProfileButton1" Label="профиль" Icon="Contact" />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="SettingsButton1" Label="настройки" Icon="Setting" />
+            
+            <CommandBar.SecondaryCommands>
+                <AppBarToggleButton x:Uid="RepeatBox" x:Name="RepeatBox" Label="Повторять напоминание"/>
+                <AppBarButton x:Uid="SecondaryButton2" x:Name="SecondaryButton2" Label="secondary command 2" />
+            </CommandBar.SecondaryCommands>
+    
+        </CommandBar>
+    </Page.TopAppBar>-->
+
+</Page>
