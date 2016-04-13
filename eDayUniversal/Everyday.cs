@@ -595,7 +595,8 @@ namespace eDay
             }
             catch (Exception ex)
             {
-
+                MessageDialog d = new MessageDialog(ex.Message);
+                await d.ShowAsync();
             }
         }
         /// <summary>
@@ -643,7 +644,8 @@ namespace eDay
             }
             catch (Exception ex)
             {
-                string f = ex.ToString();
+                MessageDialog d = new MessageDialog(ex.Message + " saveStringToLocalFile");
+                await d.ShowAsync();
             }
         }
 

@@ -186,7 +186,7 @@
                         IsItemClickEnabled="True" FontSize="18.667" >
                         <GridView.ItemTemplate>
                             <DataTemplate>
-                                <Grid x:Name="gridItem" Width="Auto" Margin="0"
+                                <Grid x:Name="gridItem" Width="160" Margin="0"
                                       FlyoutBase.AttachedFlyout="{StaticResource flyoutEvent}" 
                                       Opacity="{Binding confirmed, 
                                       Converter={StaticResource CheckToOpacity}}">
