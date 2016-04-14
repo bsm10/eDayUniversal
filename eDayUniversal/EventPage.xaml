@@ -15,101 +15,88 @@
         <local:ClassToColor x:Key="ClassToColor"/>
         <local:IntToBool x:Key="DoubleToBool"/>
     </Page.Resources>
-
-    <Grid x:Name="LayoutRoot" Background="{Binding [0].eventsByDay[0].event_class, Converter={StaticResource ClassToColor}}">
-        <Grid.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition/>
-            </TransitionCollection>
-        </Grid.ChildrenTransitions>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <!--TODO: Содержимое должно размещаться в следующей сетке-->
-        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0"
-            DataContext="{Binding [1].eventsByDay[2]}">
-            <Grid x:Name="grid" Margin="0,0,0,9.5" Background="{Binding ColorEvent}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" />
-                    <ColumnDefinition Width="230" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
+    <Grid x:Name="ContentRoot" 
+            DataContext="{Binding [1].eventsByDay[2]}"
+            Background="{Binding event_class, Converter={StaticResource ClassToColor}}">
+        <Grid x:Name="grid" Margin="0" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="230" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
                                     TextWrapping="Wrap"
                                     Pivot.SlideInAnimationGroup="1"
                                     CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                    Margin="0,6" FontSize="29.333" Text="{Binding time}" RenderTransformOrigin="0.491,0.57" FontWeight="Bold" VerticalAlignment="Center" Foreground="White"/>
-                <StackPanel Grid.Row="1" Grid.Column="1">
-                    <TextBlock FontSize="13.333" Margin="10,0,0,0" Foreground="#FFFAFAFA">Эксперт</TextBlock>
-                    <TextBlock Grid.Column="1" Grid.Row="1"
+                                    Margin="10,5,0,5" FontSize="24" Text="{Binding time}" RenderTransformOrigin="0.491,0.57" FontWeight="Bold" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <TextBlock FontSize="13.333" Margin="10,0,0,0" Foreground="#FFFAFAFA">Эксперт</TextBlock>
+                <TextBlock Grid.Column="1" Grid.Row="1"
                                     TextWrapping="Wrap"
                                     Pivot.SlideInAnimationGroup="1"
                                     CommonNavigationTransitionInfo.IsStaggerElement="True"
                                     Margin="10,0,0,0" FontSize="18" Text="{Binding expert_name}" RenderTransformOrigin="0.491,0.57" HorizontalAlignment="Left" Width="Auto" VerticalAlignment="Center" FontFamily="Segoe WP" Foreground="White"/>
 
-                </StackPanel>
-                <CheckBox Grid.Column="2"
+            </StackPanel>
+            <CheckBox Grid.Column="1"
                                           IsChecked="{Binding confirmed, Converter={StaticResource DoubleToBool}, Mode=TwoWay}" 
-                                          Margin="0,21,-116.987,0" 
+                                          Margin="0,34,-110,0" 
                                           Width="169" 
                                           Height="66"
                                           HorizontalAlignment="Right" Background="{x:Null}" 
-                                          RequestedTheme="Light" Grid.RowSpan="2"
+                                          RequestedTheme="Light" Grid.RowSpan="2" Grid.ColumnSpan="2"
                                           />
-                <TextBlock Grid.Column="1" Grid.Row="0"
+            <TextBlock Grid.Column="1" Grid.Row="0"
                                     TextWrapping="WrapWholeWords"
                                     Pivot.SlideInAnimationGroup="2" 
                                     CommonNavigationTransitionInfo.IsStaggerElement="True" 
-                                    Margin="10,0,0,0" 
+                                    Margin="10,9,0,9" 
                                     FontSize="24"
                                     Text="{Binding event_name}"
                                     Foreground="White" FontWeight="Bold" VerticalAlignment="Center"/>
-                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontFamily="Segoe WP" Margin="10,0,0,0" Foreground="#FFF9F9F9">
+            <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,16,0,15">
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontFamily="Segoe WP" Margin="10,0,0,0" Foreground="#FFF9F9F9">
                         kkal
-                    </TextBlock>
-                    <TextBlock      TextWrapping="WrapWholeWords"
+                </TextBlock>
+                <TextBlock      TextWrapping="WrapWholeWords"
                                     Pivot.SlideInAnimationGroup="2" 
                                     CommonNavigationTransitionInfo.IsStaggerElement="True" 
                                     FontSize="13.333"
                                        Width="Auto"
                                     Text="{Binding details.kkal}" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center" Margin="20,0,0,0" Foreground="#FFF9F9F9"/>
 
-                </StackPanel>
-                <ListBox x:Name="listItems" Grid.ColumnSpan="3"
+            </StackPanel>
+            <ListBox x:Name="listItems" Grid.ColumnSpan="3"
                                     Margin="0"
                                     Grid.Row="3" 
                                     ItemsSource="{Binding details.items}"
                                     ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                          FontSize="14.667" ScrollViewer.VerticalScrollBarVisibility="Auto" Background="{Binding ColorEvent}" Foreground="{ThemeResource ListBoxItemSelectedForegroundThemeBrush}" BorderBrush="White" VerticalAlignment="Top"
                          >
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="Assets/new-item.png" Width="25">
-                                    
-                                </Image>
-                                <TextBlock x:Name="txtItem"
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                            <Image Source="Assets/new-item.png" Width="25">
+
+                            </Image>
+                            <TextBlock x:Name="txtItem"
                                                        SelectionHighlightColor="{x:Null}"
                                                         Text="{Binding caption}"
                                                        Width="Auto" Margin="10,0,0,0" FontSize="16" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
 
-                </ListBox>
-                <Image x:Name="image" Margin="0" Grid.RowSpan="2" 
+            </ListBox>
+            <Image x:Name="image" Margin="20" Grid.RowSpan="2" 
                                        Source="{Binding img.path}" Grid.Row="1"/>
-            </Grid>
-
         </Grid>
     </Grid>
+
 </Page>
