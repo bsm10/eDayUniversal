@@ -101,9 +101,12 @@ namespace eDay.Data
         public static async Task<ObservableCollection<EventsByDay>> GetGroupsEventsAsync()
         {
             Uri dataUri = new Uri("ms-appx:///DataModel/eDayData.json");
+            var folder = ApplicationData.Current.LocalFolder;
             try
             {
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
+                
+                StorageFile file = (StorageFile)await folder.TryGetItemAsync("eDayData.json");
+                if (file == null) file = await StorageFile.GetFileFromApplicationUriAsync(dataUri);
                 string jsonText= string.Empty;
                 if (file != null)
                 {

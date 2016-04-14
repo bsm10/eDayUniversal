@@ -635,11 +635,13 @@ namespace eDay
 
         private static async Task saveStringToLocalFile(string content)
         {
-            Uri fileUri = new Uri("ms-appx:///DataModel/eDayData.json");
-            byte[] fileBytes = Encoding.UTF8.GetBytes(content.ToCharArray());
+            //Uri fileUri = new Uri("ms-appx:///DataModel/eDayData.json");
+            //byte[] fileBytes = Encoding.UTF8.GetBytes(content.ToCharArray());
             try
             {
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(fileUri);
+                var folder = ApplicationData.Current.LocalFolder;
+                var file = await folder.CreateFileAsync("eDayData.json", CreationCollisionOption.ReplaceExisting);
+                //StorageFile file1 = await StorageFile.GetFileFromApplicationUriAsync(fileUri);
                 await FileIO.WriteTextAsync(file, content);
             }
             catch (Exception ex)
