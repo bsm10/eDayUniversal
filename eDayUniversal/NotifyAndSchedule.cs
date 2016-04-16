@@ -15,11 +15,15 @@ namespace eDay
 {
     public static class NotifyAndSchedule
     {
-        
-        
         #region Notifications
-        public static void NotifyUser(string strMessage, NotifyType type, Border StatusBorder, TextBlock StatusBlock)
+        static DispatcherTimer dispatcherTimer;
+        static int timesTicked = 0;
+        static int timesToTick = 10;
+        static Border statusBorder;
+         
+        public static void NotifyUser(string strMessage, NotifyType type, Border StatusBorder, TextBlock StatusBlock, int Seconds = 0)
         {
+            statusBorder = StatusBorder;
             if (StatusBlock != null)
             {
                 switch (type)
@@ -41,7 +45,28 @@ namespace eDay
                 {
                     StatusBorder.Visibility = Visibility.Collapsed;
                 }
+                if (Seconds!=0)
+                {
+                    dispatcherTimer = new DispatcherTimer();
+                    dispatcherTimer.Tick += dispatcherTimer_Tick;
+                    dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+                    timesToTick = Seconds;
+                    dispatcherTimer.Start();
+
+                }
+
             }
+        }
+        static void dispatcherTimer_Tick(object sender, object e)
+        {
+            if (timesTicked == timesToTick)
+            {
+                dispatcherTimer.Stop();
+                statusBorder.Visibility = Visibility.Collapsed;
+                timesTicked = 0;
+                return;
+            }
+            timesTicked++;
         }
         public static void ScheduleToast(string updateString, int eventID, DateTime dueTime, bool RepeatToast = false)
         {

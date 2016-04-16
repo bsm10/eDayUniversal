@@ -111,12 +111,6 @@ namespace eDay
 
         #endregion
 
-        private async void checkBoxCofirm_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            //Event event_ForConfirm = checkBoxCofirm.DataContext as Event;
-            //await Everyday.ConfirmEvent(event_ForConfirm, checkBoxCofirm.IsChecked == true ? 1 : 0);
-            //if (event_ForConfirm.confirmed == 1) UnScheduleToast(event_ForConfirm.id.ToString());
-        }
 
         private void listItems_Tapped(object sender, TappedRoutedEventArgs e)
         {

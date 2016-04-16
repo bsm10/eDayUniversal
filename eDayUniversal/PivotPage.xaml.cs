@@ -49,7 +49,8 @@ namespace eDay
             navigationHelper.LoadState += NavigationHelper_LoadState;
             navigationHelper.SaveState += NavigationHelper_SaveState;
             checkConf = (CheckBox)(flyoutEvent.Content as Page).FindName("checkBoxCofirm");
-            checkConf.Tapped += CheckConf_Tapped; ;
+            checkConf.Tapped += CheckConf_Tapped; 
+
         }
 
         private async void CheckConf_Tapped(object sender, TappedRoutedEventArgs e)
@@ -58,6 +59,8 @@ namespace eDay
             await Everyday.ConfirmEvent(event_ForConfirm, checkConf.IsChecked == true ? 1 : 0);
             if (event_ForConfirm.confirmed == 1) UnScheduleToast(event_ForConfirm.id.ToString());
             flyoutEvent.Hide();
+            string s = event_ForConfirm.confirmed == 1 ? "Событие подтверждено!" : "Отметка о подтверждении снята!";
+            NotifyUser(s, NotifyType.StatusMessage, StatusBorder, StatusBlock,1);
         }
 
         async void OnLoaded(object sender, RoutedEventArgs arg)
@@ -232,13 +235,7 @@ namespace eDay
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            //(flyoutEvent.Content as Grid).DataContext = (Event)e.ClickedItem;
-            //Event evnt = (Event)e.ClickedItem;
             (flyoutEvent.Content as Page).DataContext = (Event)e.ClickedItem;
-
-            //confirm = evnt.confirmed;
-            //flyoutEvent.ShowAt((FrameworkElement)sender);
-            
             flyoutEvent.ShowAt(StatusBorder);
         }
 
