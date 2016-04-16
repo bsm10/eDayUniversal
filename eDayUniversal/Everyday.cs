@@ -214,83 +214,6 @@ namespace eDay
             return ((ICollection<Event>)eventsByDay).Remove(item);
         }
 
-        //public Event this[int index]
-        //{
-        //    get
-        //    {
-        //        return ((IList<Event>)eventsByDay)[index];
-        //    }
-
-        //    set
-        //    {
-        //        ((IList<Event>)eventsByDay)[index] = value;
-        //    }
-        //}
-
-        //public int Count
-        //{
-        //    get
-        //    {
-        //        return ((IList<Event>)eventsByDay).Count;
-        //    }
-        //}
-        //public bool IsReadOnly
-        //{
-        //    get
-        //    {
-        //        return ((IList<Event>)eventsByDay).IsReadOnly;
-        //    }
-        //}
-
-        //public void Add(Event item)
-        //{
-        //    ((IList<Event>)eventsByDay).Add(item);
-        //}
-
-        //public void Clear()
-        //{
-        //    ((IList<Event>)eventsByDay).Clear();
-        //}
-
-        //public bool Contains(Event item)
-        //{
-        //    return ((IList<Event>)eventsByDay).Contains(item);
-        //}
-
-        //public void CopyTo(Event[] array, int arrayIndex)
-        //{
-        //    ((IList<Event>)eventsByDay).CopyTo(array, arrayIndex);
-        //}
-
-        //public IEnumerator<Event> GetEnumerator()
-        //{
-        //    return ((IList<Event>)eventsByDay).GetEnumerator();
-        //}
-
-        //public int IndexOf(Event item)
-        //{
-        //    return ((IList<Event>)eventsByDay).IndexOf(item);
-        //}
-
-        //public void Insert(int index, Event item)
-        //{
-        //    ((IList<Event>)eventsByDay).Insert(index, item);
-        //}
-
-        //public bool Remove(Event item)
-        //{
-        //    return ((IList<Event>)eventsByDay).Remove(item);
-        //}
-
-        //public void RemoveAt(int index)
-        //{
-        //    ((IList<Event>)eventsByDay).RemoveAt(index);
-        //}
-
-        //IEnumerator IEnumerable.GetEnumerator()
-        //{
-        //    return ((IList<Event>)eventsByDay).GetEnumerator();
-        //}
         public override string ToString()
         {
             return eventsByDay[0].date.ToString();
@@ -327,7 +250,7 @@ namespace eDay
     }
     public class Event : INotifyPropertyChanged
     {
-        private double _confirmed;
+        private int _confirmed;
 
         private int _event_class;
         public int event_class
@@ -358,8 +281,8 @@ namespace eDay
         public string time { get; set; }
         public string event_name { get; set; }
         public string expert_name { get; set; }
-        public int confirmed { get; set; }
-        public double Confirmed
+        //public int confirmed { get; set; }
+        public int confirmed
         {
             get
             {
@@ -370,7 +293,7 @@ namespace eDay
                 if (_confirmed != value)
                 {
                     _confirmed = value;
-                    OnPropertyChanged("_confirmed");
+                    RaisePropertyChanged("confirmed");
                 }
             }
         }
@@ -385,12 +308,11 @@ namespace eDay
             return string.Format("{0}, {1} - {2}", date, time, event_name);
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string info)
+        protected void RaisePropertyChanged(string info)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
+            if (PropertyChanged != null)
             {
-                handler(this, new PropertyChangedEventArgs(info));
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
             }
         }
 

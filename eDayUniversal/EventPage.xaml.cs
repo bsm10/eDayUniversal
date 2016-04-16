@@ -1,4 +1,5 @@
 ﻿using eDay.Common;
+using eDay.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +16,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using static eDay.NotifyAndSchedule;
+
 
 // Документацию по шаблону элемента "Основная страница" см. по адресу http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -107,5 +110,13 @@ namespace eDay
         }
 
         #endregion
+
+        private async void checkBoxCofirm_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Event event_ForConfirm = checkBoxCofirm.DataContext as Event;
+            await Everyday.ConfirmEvent(event_ForConfirm, checkBoxCofirm.IsChecked == true ? 1 : 0);
+            if (event_ForConfirm.confirmed == 1) UnScheduleToast(event_ForConfirm.id.ToString());
+        }
+
     }
 }

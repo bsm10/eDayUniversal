@@ -19,8 +19,7 @@
         <local:IntToBool x:Key="IntToBool"/>
         <local:ClassToColor x:Key="ClassToColor"/>
         <local:ConfirmedToOpacity x:Key="CheckToOpacity"/>
-        <Flyout x:Name="flyoutEvent"
-                Closed="flyoutEvent_Closed">
+        <Flyout x:Name="flyoutEvent">
             <local:EventPage/>
         </Flyout>
 
@@ -53,8 +52,8 @@
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock FontSize="26" Text="{Binding Day, Mode=OneWay}" Margin="0,0,0,0"/>
-                        <TextBlock FontSize="16" Text="{Binding Date, Mode=OneWay}"/>
+                        <TextBlock FontSize="20" Text="{Binding Day, Mode=OneWay}" Margin="0,0,0,0"/>
+                        <TextBlock FontSize="14" Text="{Binding Date, Mode=OneWay}"/>
                     </StackPanel>
                 </DataTemplate>
             </Pivot.HeaderTemplate>

@@ -19,7 +19,6 @@
     <Page.Resources>
         <local:ClassToColor x:Key="ClassToColor"/>
         <local:IntToBool x:Key="DoubleToBool"/>
-        
     </Page.Resources>
     <Grid x:Name="ContentRoot" 
            d:DataContext="{Binding [1].eventsByDay[2]}"
@@ -52,12 +51,12 @@
 
             </StackPanel>
             <CheckBox x:Name="checkBoxCofirm" Grid.Column="1"
-                                          IsChecked="{Binding confirmed, Converter={StaticResource DoubleToBool}, Mode=TwoWay}" 
+                                          IsChecked="{Binding confirmed, Converter={StaticResource DoubleToBool}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                           Margin="0,34,-110,0" 
                                           Width="169" 
                                           Height="66"
                                           HorizontalAlignment="Right" Background="{x:Null}" 
-                                          RequestedTheme="Light" Grid.RowSpan="2" Grid.ColumnSpan="2"
+                                          RequestedTheme="Light" Grid.RowSpan="2" Grid.ColumnSpan="2" Tapped="checkBoxCofirm_Tapped"
                                           />
             <TextBlock Grid.Column="1" Grid.Row="0"
                                     TextWrapping="WrapWholeWords"

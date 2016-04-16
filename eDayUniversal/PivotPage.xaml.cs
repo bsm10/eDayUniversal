@@ -31,12 +31,13 @@ namespace eDay
         private const string quote = "\"";
         private const string FirstGroupName = "FirstGroup";
         private const string SecondGroupName = "SecondGroup";
-        ObservableCollection<EventsByDay> eDayDataGroup = new ObservableCollection<EventsByDay>();
+        public ObservableCollection<EventsByDay> eDayDataGroup = new ObservableCollection<EventsByDay>();
         //eDayDataSource GroupEvents = new eDayDataSource();
 
         private readonly NavigationHelper navigationHelper;
         private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
+        private int confirm;
 
         public PivotPage()
         {
@@ -224,19 +225,22 @@ namespace eDay
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             //(flyoutEvent.Content as Grid).DataContext = (Event)e.ClickedItem;
-            (flyoutEvent.Content as Page).DataContext = (Event)e.ClickedItem;
+            Event evnt = (Event)e.ClickedItem;
+            (flyoutEvent.Content as Page).DataContext = evnt;
 
+            confirm = evnt.confirmed;
             //flyoutEvent.ShowAt((FrameworkElement)sender);
             flyoutEvent.ShowAt(StatusBorder);
         }
 
-        private void flyoutEvent_Closed(object sender, object e)
-        {
-            //Event event_ForConfirm  = (flyoutEvent.Content as Grid).DataContext as Event;
-            //if (event_ForConfirm != null)
-        }
+        //private async void flyoutEvent_Closed(object sender, object e)
+        //{
+        //    //Event event_ForConfirm  = (flyoutEvent.Content as Page).DataContext as Event;
+        //    //if (confirm != event_ForConfirm.confirmed) await UpdateData();
+        //}
 
-        private async Task UpdateData()
+
+        public async Task UpdateData()
         {
             await Everyday.GetEvents(DateTime.Today.ToString("yyyy-MM-dd"), (DateTime.Today + TimeSpan.FromDays(5)).ToString("yyyy-MM-dd"));
             eDayDataGroup = await eDayDataSource.GetGroupsEventsAsync();
@@ -244,18 +248,19 @@ namespace eDay
             pivot.ItemsSource = eDayDataGroup;
         }
 
-        private async void eventConfirm()
-        {
-            Event event_ForConfirm = (flyoutEvent.Content as Grid).DataContext as Event;
-            await Everyday.ConfirmEvent(event_ForConfirm, event_ForConfirm.confirmed);
-            if (event_ForConfirm.confirmed == 1) UnScheduleToast(event_ForConfirm.id.ToString());
-            await UpdateData();
-        }
+        //private void eventConfirm()
+        //{
+        //    //Event event_ForConfirm = (flyoutEvent.Content as Grid).DataContext as Event;
+        //    //await Everyday.ConfirmEvent(event_ForConfirm, event_ForConfirm.confirmed);
+        //    //if (event_ForConfirm.confirmed == 1) UnScheduleToast(event_ForConfirm.id.ToString());
+        //    //await UpdateData();
+        //    //flyoutEvent.Hide();
+        //}
 
-        private void checkBoxCofirm_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            eventConfirm();
-        }
+        //private void checkBoxCofirm_Tapped(object sender, TappedRoutedEventArgs e)
+        //{
+        //    //eventConfirm();
+        //}
 
     }
 }
