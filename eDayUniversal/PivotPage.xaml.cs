@@ -223,9 +223,11 @@ namespace eDay
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            (flyoutEvent.Content as Grid).DataContext = (Event)e.ClickedItem;
+            //(flyoutEvent.Content as Grid).DataContext = (Event)e.ClickedItem;
+            (flyoutEvent.Content as Page).DataContext = (Event)e.ClickedItem;
+
             //flyoutEvent.ShowAt((FrameworkElement)sender);
-            flyoutEvent.ShowAt(pivot);
+            flyoutEvent.ShowAt(StatusBorder);
         }
 
         private void flyoutEvent_Closed(object sender, object e)
@@ -254,5 +256,6 @@ namespace eDay
         {
             eventConfirm();
         }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿<Page
+﻿<Page x:Name="eventPage"
     x:Class="eDay.EventPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,15 +9,22 @@
           d:DataContext="{Binding events, 
           Source={d:DesignData Source=/DataModel/eDayData.json,IsDesignTimeCreatable=True,
                                Type = data:eDayDataSource}}" Background="#FF38401C"
-    mc:Ignorable="d">
+    mc:Ignorable="d" 
+    VerticalAlignment="Top" 
+    HorizontalContentAlignment="Stretch"
+      VerticalContentAlignment="Top" IsTabStop="True" Height="Auto"
+      
+    >
 
     <Page.Resources>
         <local:ClassToColor x:Key="ClassToColor"/>
         <local:IntToBool x:Key="DoubleToBool"/>
+        
     </Page.Resources>
     <Grid x:Name="ContentRoot" 
-            DataContext="{Binding [1].eventsByDay[2]}"
-            Background="{Binding event_class, Converter={StaticResource ClassToColor}}">
+           d:DataContext="{Binding [1].eventsByDay[2]}"
+            Background="{Binding event_class, Converter={StaticResource ClassToColor}}"
+            VerticalAlignment="Top">
         <Grid x:Name="grid" Margin="0" VerticalAlignment="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
@@ -44,7 +51,7 @@
                                     Margin="10,0,0,0" FontSize="18" Text="{Binding expert_name}" RenderTransformOrigin="0.491,0.57" HorizontalAlignment="Left" Width="Auto" VerticalAlignment="Center" FontFamily="Segoe WP" Foreground="White"/>
 
             </StackPanel>
-            <CheckBox Grid.Column="1"
+            <CheckBox x:Name="checkBoxCofirm" Grid.Column="1"
                                           IsChecked="{Binding confirmed, Converter={StaticResource DoubleToBool}, Mode=TwoWay}" 
                                           Margin="0,34,-110,0" 
                                           Width="169" 
