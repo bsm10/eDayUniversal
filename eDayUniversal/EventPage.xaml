@@ -83,7 +83,7 @@
                                     Grid.Row="3" 
                                     ItemsSource="{Binding details.items}"
                                     ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                         FontSize="14.667" ScrollViewer.VerticalScrollBarVisibility="Auto" Background="{Binding ColorEvent}" Foreground="{ThemeResource ListBoxItemSelectedForegroundThemeBrush}" BorderBrush="White" VerticalAlignment="Top"
+                         FontSize="14.667" ScrollViewer.VerticalScrollBarVisibility="Auto" Background="{Binding ColorEvent}" Foreground="{ThemeResource ListBoxItemSelectedForegroundThemeBrush}" BorderBrush="White" VerticalAlignment="Top" Tapped="listItems_Tapped"
                          >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -103,6 +103,7 @@
             <Image x:Name="image" Margin="20" Grid.RowSpan="2" 
                                        Source="{Binding img.path}" Grid.Row="1"/>
         </Grid>
+        <Frame x:Name="frame" Content="Frame" HorizontalAlignment="Left" Margin="445,290,-185,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 
 </Page>

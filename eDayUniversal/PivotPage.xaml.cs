@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using static eDay.NotifyAndSchedule;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Controls.Primitives;
+using System.Linq;
 
 // Документацию по шаблону "Приложение с Pivot" см. по адресу http://go.microsoft.com/fwlink/?LinkID=391641
 
@@ -37,8 +38,8 @@ namespace eDay
         private readonly NavigationHelper navigationHelper;
         private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
-        private int confirm;
-
+        //private int confirm;
+        CheckBox checkConf;
         public PivotPage()
         {
             InitializeComponent();
@@ -47,17 +48,24 @@ namespace eDay
             navigationHelper = new NavigationHelper(this);
             navigationHelper.LoadState += NavigationHelper_LoadState;
             navigationHelper.SaveState += NavigationHelper_SaveState;
-
+            checkConf = (CheckBox)(flyoutEvent.Content as Page).FindName("checkBoxCofirm");
+            checkConf.Tapped += CheckConf_Tapped; ;
         }
+
+        private async void CheckConf_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Event event_ForConfirm = checkConf.DataContext as Event;
+            await Everyday.ConfirmEvent(event_ForConfirm, checkConf.IsChecked == true ? 1 : 0);
+            if (event_ForConfirm.confirmed == 1) UnScheduleToast(event_ForConfirm.id.ToString());
+            flyoutEvent.Hide();
+        }
+
         async void OnLoaded(object sender, RoutedEventArgs arg)
         {
             if (Everyday.Token == null)
             {
                 NotifyUser("Обновляю данные...", NotifyType.StatusMessage, StatusBorder, StatusBlock);
                 await Everyday.LoginEveryday();
-                //eDayDataGroup = await eDayDataSource.GetGroupsEventsAsync();
-                //DefaultViewModel[FirstGroupName] = eDayDataGroup;
-                //pivot.ItemsSource = eDayDataGroup;
                 await UpdateData();
                 foreach (Event e in eDayDataGroup[0].eventsByDay)
                 {
@@ -225,42 +233,30 @@ namespace eDay
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             //(flyoutEvent.Content as Grid).DataContext = (Event)e.ClickedItem;
-            Event evnt = (Event)e.ClickedItem;
-            (flyoutEvent.Content as Page).DataContext = evnt;
+            //Event evnt = (Event)e.ClickedItem;
+            (flyoutEvent.Content as Page).DataContext = (Event)e.ClickedItem;
 
-            confirm = evnt.confirmed;
+            //confirm = evnt.confirmed;
             //flyoutEvent.ShowAt((FrameworkElement)sender);
+            
             flyoutEvent.ShowAt(StatusBorder);
         }
 
-        //private async void flyoutEvent_Closed(object sender, object e)
-        //{
-        //    //Event event_ForConfirm  = (flyoutEvent.Content as Page).DataContext as Event;
-        //    //if (confirm != event_ForConfirm.confirmed) await UpdateData();
-        //}
-
-
         public async Task UpdateData()
         {
-            await Everyday.GetEvents(DateTime.Today.ToString("yyyy-MM-dd"), (DateTime.Today + TimeSpan.FromDays(5)).ToString("yyyy-MM-dd"));
+            int delta = DayOfWeek.Monday - DateTime.Today.DayOfWeek;
+            DateTime monday = DateTime.Today.AddDays(delta);
+            await Everyday.GetEvents(monday.ToString("yyyy-MM-dd"), (DateTime.Today + TimeSpan.FromDays(7)).ToString("yyyy-MM-dd"));
+            //await Everyday.GetEvents(DateTime.Today.ToString("yyyy-MM-dd"), (DateTime.Today + TimeSpan.FromDays(7)).ToString("yyyy-MM-dd"));
+            
             eDayDataGroup = await eDayDataSource.GetGroupsEventsAsync();
             DefaultViewModel[FirstGroupName] = eDayDataGroup;
             pivot.ItemsSource = eDayDataGroup;
+            EventsByDay ebd = await eDayDataSource.GetEventsByDateAsync(DateTime.Today.ToString("yyyy-MM-dd")) as EventsByDay;
+            var q = from EventsByDay p in pivot.Items where DateTime.Parse(p.ToString()) == DateTime.Today select p;
+            if (q.Count() != 0) pivot.SelectedItem = q.First();
+            
         }
-
-        //private void eventConfirm()
-        //{
-        //    //Event event_ForConfirm = (flyoutEvent.Content as Grid).DataContext as Event;
-        //    //await Everyday.ConfirmEvent(event_ForConfirm, event_ForConfirm.confirmed);
-        //    //if (event_ForConfirm.confirmed == 1) UnScheduleToast(event_ForConfirm.id.ToString());
-        //    //await UpdateData();
-        //    //flyoutEvent.Hide();
-        //}
-
-        //private void checkBoxCofirm_Tapped(object sender, TappedRoutedEventArgs e)
-        //{
-        //    //eventConfirm();
-        //}
 
     }
 }
