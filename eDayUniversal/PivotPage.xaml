@@ -22,8 +22,15 @@
         <Flyout x:Name="flyoutEvent">
             <local:EventPage/>
         </Flyout>
+        <Flyout x:Name="flyoutCalendar">
+            <local:CalendarPage/>
+        </Flyout>
+
 
     </Page.Resources>
+    <FlyoutBase.AttachedFlyout>
+        <StaticResource ResourceKey="flyoutEvent"/>
+    </FlyoutBase.AttachedFlyout>
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition>
@@ -38,7 +45,7 @@
                 Visibility="Collapsed" 
                 Tapped="StatusBorder_Tapped"
                 Margin="0,0,0,0"
-                Height="50" VerticalAlignment="Bottom">
+                Height="50" VerticalAlignment="Bottom" Canvas.ZIndex="1">
             <TextBlock x:Name="StatusBlock"
                        Foreground="White"
                        Margin="12, 10, 12, 10"
@@ -47,12 +54,12 @@
         </Border>
         <Pivot x:Uid="Pivot" Title="EVERYDAY" x:Name="pivot"
                CommonNavigationTransitionInfo.IsStaggerElement="True" 
-               Margin="0" ItemsSource="{Binding}" BorderThickness="0"
+               Margin="0,0,0,50" ItemsSource="{Binding}" BorderThickness="0"
                >
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock FontSize="20" Text="{Binding Day, Mode=OneWay}" Margin="0,0,0,0"/>
+                        <TextBlock FontSize="20" Text="{Binding Day, Mode=OneWay}" Margin="0,0,0,0" FontFamily="Segoe WP Semibold" FontWeight="Bold"/>
                         <TextBlock FontSize="14" Text="{Binding Date, Mode=OneWay}"/>
                     </StackPanel>
                 </DataTemplate>
@@ -119,9 +126,9 @@
             <AppBarButton x:Uid="AddAppBarButton" x:Name="ProfileButton"  Label="профиль" Icon="ContactPresence" />
             <AppBarButton x:Uid="AddAppBarButton" x:Name="SettingsButton" Label="настройки" Icon="Setting" />
             <CommandBar.SecondaryCommands>
-                <AppBarToggleButton x:Uid="AllTasks" x:Name="AllTasks" Label="Отображать все задачи" />
+                <AppBarToggleButton x:Uid="AllTasks" x:Name="AllTasks" Label="Отображать все задачи" IsChecked="True" />
                 <AppBarToggleButton x:Uid="RepeatBox" x:Name="RepeatBox" Label="Повторять напоминание"/>
-                <AppBarButton x:Uid="CalendarButton" x:Name="CalendarButton" Label="Календарь" />
+                <AppBarButton x:Uid="CalendarButton" x:Name="CalendarButton" Label="Календарь" Tapped="CalendarButton_Tapped" Flyout="{StaticResource flyoutCalendar}" />
 
             </CommandBar.SecondaryCommands>
         </CommandBar>

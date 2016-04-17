@@ -15,7 +15,7 @@
         <data:MonthCalendar/>
     </UserControl.DataContext>
 
-    <Grid>
+    <Grid Background="#FF3A89AD">
         <Grid.ChildrenTransitions>
             <TransitionCollection>
                 <EntranceThemeTransition/>
@@ -32,13 +32,14 @@
                   Grid.Row="2" 
                   ItemsSource="{Binding days}" 
                   CanReorderItems="False"
-                  FontSize="26.667" Margin="0"
+                  FontSize="26.667"
                   VerticalContentAlignment="Stretch"
                   HorizontalContentAlignment="Stretch" ItemClick="gridView_ItemClick" Tapped="gridView_Tapped" >
 
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Width="53" Height="50">
+                    <Grid Width="50"
+                          Height="50">
                         <TextBlock
                             TextAlignment="Center"
                             VerticalAlignment="Center"

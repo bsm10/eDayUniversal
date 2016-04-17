@@ -12,7 +12,7 @@
     mc:Ignorable="d" 
     VerticalAlignment="Top" 
     HorizontalContentAlignment="Stretch"
-      VerticalContentAlignment="Top" IsTabStop="True" Height="Auto"
+      VerticalContentAlignment="Top" IsTabStop="True" Height="Auto" 
       
     >
 

@@ -236,14 +236,15 @@ namespace eDay
         private void GridView_ItemClick(object sender, ItemClickEventArgs e)
         {
             (flyoutEvent.Content as Page).DataContext = (Event)e.ClickedItem;
-            flyoutEvent.ShowAt(StatusBorder);
+            FlyoutBase.ShowAttachedFlyout(this);
+            //flyoutEvent.ShowAt(sender as FrameworkElement); //StatusBorder
         }
 
         public async Task UpdateData()
         {
             int delta = DayOfWeek.Monday - DateTime.Today.DayOfWeek;
             DateTime monday = DateTime.Today.AddDays(delta);
-            await Everyday.GetEvents(monday.ToString("yyyy-MM-dd"), (DateTime.Today + TimeSpan.FromDays(7)).ToString("yyyy-MM-dd"));
+            await Everyday.GetEvents(monday.ToString("yyyy-MM-dd"), (monday + TimeSpan.FromDays(6)).ToString("yyyy-MM-dd"));
             //await Everyday.GetEvents(DateTime.Today.ToString("yyyy-MM-dd"), (DateTime.Today + TimeSpan.FromDays(7)).ToString("yyyy-MM-dd"));
             
             eDayDataGroup = await eDayDataSource.GetGroupsEventsAsync();
@@ -252,8 +253,13 @@ namespace eDay
             EventsByDay ebd = await eDayDataSource.GetEventsByDateAsync(DateTime.Today.ToString("yyyy-MM-dd")) as EventsByDay;
             var q = from EventsByDay p in pivot.Items where DateTime.Parse(p.ToString()) == DateTime.Today select p;
             if (q.Count() != 0) pivot.SelectedItem = q.First();
+            pivot.Title = "Сегодня " + DateTime.Today.ToString("dddd dd-MMM-yyyy");
             
         }
 
+        private void CalendarButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            flyoutCalendar.ShowAt(sender as FrameworkElement);
+        }
     }
 }

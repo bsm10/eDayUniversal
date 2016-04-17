@@ -41,7 +41,6 @@ namespace eDay
         }
         void OnLoaded(object sender, RoutedEventArgs arg)
         {
-            calendar.SetMonth(DateTime.Now.Year, DateTime.Now.Month);
         }
 
         /// <summary>
@@ -116,13 +115,5 @@ namespace eDay
         }
         #endregion
 
-        private void calendar_ClickCalendarHandler(object sender, RoutedEventArgs e)
-        {
-            //TextBlock t = (TextBlock)e.OriginalSource;
-            //MonthDay day_tapped = (MonthDay)t.DataContext;
-            textBlock.Text = calendar.TappedDate.ToString("dd-MM-yyyy");
-            
-            flyOut.ShowAt(calendar);
-        }
     }
 }

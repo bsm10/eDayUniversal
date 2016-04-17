@@ -54,32 +54,9 @@ namespace eDay
             currentMonth = month;
             ObservableCollection<MonthDay> dd = new ObservableCollection<MonthDay>();
             DateTime date = new DateTime(year, month, 1);
-            int firstDay = (int)date.DayOfWeek;
-            int delta = 0;
-            switch (firstDay)
-            {
-                case 1:
-                    delta = 0;
-                    break;
-                case 2:
-                    delta = 1;
-                    break;
-                case 3:
-                    delta = 2;
-                    break;
-                case 4:
-                    delta = 3;
-                    break;
-                case 5:
-                    delta = 4;
-                    break;
-                case 6:
-                    delta = 5;
-                    break;
-                case 0:
-                    delta = 6;//sunday - is 0 day of week!
-                    break;
-            }
+            int delta = DayOfWeek.Monday - date.DayOfWeek;
+            DateTime monday = DateTime.Today.AddDays(delta);
+
             DateTime startDate = date.Subtract(TimeSpan.FromDays(delta));
             for (int i = 0; i < 35; i++)
             {
@@ -103,15 +80,6 @@ namespace eDay
             return dd;
         }
 
-        //public string monthMMMMyyyy
-        //{
-        //    get
-        //    {
-        //        if (year == 0) year = DateTime.Now.Year;
-        //        if (month == 0) month = DateTime.Now.Month;
-        //        return new DateTime(year, month, 1).ToString("MMMM yyyy");
-        //    }
-        //}
     }
     public class MonthDay
     {
