@@ -114,7 +114,7 @@ namespace eDay
 
         private void listItems_Tapped(object sender, TappedRoutedEventArgs e)
         {
-
+            
         }
     }
 }

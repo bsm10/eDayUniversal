@@ -19,55 +19,253 @@
     <Page.Resources>
         <local:ClassToColor x:Key="ClassToColor"/>
         <local:IntToBool x:Key="DoubleToBool"/>
+        
     </Page.Resources>
     <Grid x:Name="ContentRoot" 
            d:DataContext="{Binding [1].eventsByDay[2]}"
             Background="{Binding event_class, Converter={StaticResource ClassToColor}}"
             VerticalAlignment="Top">
-        <Grid x:Name="grid" Margin="0" VerticalAlignment="Top">
+        <Grid x:Name="grid" VerticalAlignment="Top">
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="70"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="230" />
                 <ColumnDefinition Width="*" />
+                <!--<ColumnDefinition Width="*" />-->
             </Grid.ColumnDefinitions>
             <TextBlock
                                     TextWrapping="Wrap"
                                     Pivot.SlideInAnimationGroup="1"
                                     CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                    Margin="10,5,0,5" FontSize="24" Text="{Binding time}" RenderTransformOrigin="0.491,0.57" FontWeight="Bold" VerticalAlignment="Center" Foreground="White" HorizontalAlignment="Center"/>
+                                    Margin="20,-5,22,23" FontSize="20" Text="{Binding time}" RenderTransformOrigin="0.491,0.57" Foreground="White" d:LayoutOverrides="Width, Height, LeftPosition, RightPosition, TopPosition, BottomPosition" Grid.Row="1"/>
             <StackPanel Grid.Row="1" Grid.Column="1">
-                <TextBlock FontSize="13.333" Margin="10,0,0,0" Foreground="#FFFAFAFA">Эксперт</TextBlock>
+                <TextBlock FontSize="13.333" Margin="0" Foreground="#FFFAFAFA">Эксперт</TextBlock>
                 <TextBlock Grid.Column="1" Grid.Row="1"
                                     TextWrapping="Wrap"
                                     Pivot.SlideInAnimationGroup="1"
                                     CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                    Margin="10,0,0,0" FontSize="18" Text="{Binding expert_name}" RenderTransformOrigin="0.491,0.57" HorizontalAlignment="Left" Width="Auto" VerticalAlignment="Center" FontFamily="Segoe WP" Foreground="White"/>
+                                    Margin="0" FontSize="18" Text="{Binding expert_name}" RenderTransformOrigin="0.491,0.57" HorizontalAlignment="Left" Width="Auto" VerticalAlignment="Center" FontFamily="Segoe UI Semilight" Foreground="White"/>
 
             </StackPanel>
-            <CheckBox x:Name="checkBoxCofirm" Grid.Column="1"
+            <CheckBox x:Name="checkBoxCofirm"
                                           IsChecked="{Binding confirmed, Converter={StaticResource DoubleToBool}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                          Margin="0,34,-110,0" 
-                                          Width="169" 
-                                          Height="66"
-                                          HorizontalAlignment="Right" Background="{x:Null}" 
-                                          RequestedTheme="Light" Grid.RowSpan="2" Grid.ColumnSpan="2" 
-                                          />
-            <TextBlock Grid.Column="1" Grid.Row="0"
-                                    TextWrapping="WrapWholeWords"
-                                    Pivot.SlideInAnimationGroup="2" 
-                                    CommonNavigationTransitionInfo.IsStaggerElement="True" 
-                                    Margin="10,9,0,9" 
-                                    FontSize="24"
-                                    Text="{Binding event_name}"
-                                    Foreground="White" FontWeight="Bold" VerticalAlignment="Center"/>
+                                          Margin="33,18,-125,20"
+                                          HorizontalAlignment="Left"
+                      Background="{x:Null}" 
+                      VerticalAlignment="Stretch" 
+                      Foreground="White" 
+                      FontSize="24"
+                      RenderTransformOrigin="0.729,0.491"
+                      BorderThickness="0,0,0,0" 
+                      HorizontalContentAlignment="Stretch"
+                      VerticalContentAlignment="Center" Width="195" d:LayoutOverrides="Height, TopPosition, BottomPosition" Padding="8,5,0,0">
+                <CheckBox.Template>
+                    <ControlTemplate>
+                        <Grid Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="Left" Width="27">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CombinedStates">
+                                    <VisualState x:Name="UncheckedNormal" />
+                                    <VisualState x:Name="UncheckedPointerOver"/>
+                                    <VisualState x:Name="UncheckedPressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
+                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="UncheckedDisabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
+                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedNormal">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
+                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="CheckGlyph"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedPointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
+                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="CheckGlyph"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedPressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
+                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="CheckGlyph"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedDisabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
+                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
+                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="CheckGlyph"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="IndeterminateNormal">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
+                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
+                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
+                                           Storyboard.TargetProperty="Glyph">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE73C;" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="CheckGlyph"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="IndeterminatePointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
+                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
+                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
+                                           Storyboard.TargetProperty="Glyph">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE73C;" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="CheckGlyph"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="IndeterminatePressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
+                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
+                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
+                                           Storyboard.TargetProperty="Glyph">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE73C;" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="CheckGlyph"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="IndeterminateDisabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle"
+                                           Storyboard.TargetProperty="Fill">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
+                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph"
+                                           Storyboard.TargetProperty="Glyph">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="&#xE73C;" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimation Storyboard.TargetName="CheckGlyph"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1"
+                             Duration="0" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid VerticalAlignment="Top" Height="32">
+                                <Rectangle x:Name="NormalRectangle"
+                  Fill="Transparent"
+                  StrokeThickness="{ThemeResource CheckBoxBorderThemeThickness}"
+                  UseLayoutRounding="False"
+                  Height="20"
+                  Width="20" Stroke="White" />
+                                <FontIcon x:Name="CheckGlyph"
+                  FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                  Glyph="&#xE001;"
+                  FontSize="20"
+                  Foreground="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}"
+                  Opacity="0" />
+                            </Grid>
+                            <!--<ContentPresenter x:Name="ContentPresenter"
+                      Margin="8,5,-166,0"
+                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                      Grid.Column="1"
+                      AutomationProperties.AccessibilityView="Raw"
+                      TextWrapping="Wrap" VerticalContentAlignment="Center" VerticalAlignment="Center" />-->
+                        </Grid>
+                    </ControlTemplate>
+                </CheckBox.Template>
+            </CheckBox>
+
+
             <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,16,0,15">
-                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontFamily="Segoe WP" Margin="10,0,0,0" Foreground="#FFF9F9F9">
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontFamily="Segoe WP" Margin="0" Foreground="#FFF9F9F9">
                         kkal
                 </TextBlock>
                 <TextBlock      TextWrapping="WrapWholeWords"
@@ -91,10 +289,16 @@
                             <Image Source="Assets/new-item.png" Width="25">
 
                             </Image>
-                            <TextBlock x:Name="txtItem"
+                            <StackPanel Margin="10,0,0,0">
+                                <TextBlock x:Name="txtItem"
                                                        SelectionHighlightColor="{x:Null}"
                                                         Text="{Binding caption}"
                                                        Width="Auto" Margin="10,0,0,0" FontSize="16" />
+                                <Border x:Name="borderDetails" BorderBrush="#FFFDFDFD" BorderThickness="1" Margin="10,0,0,0" Visibility="Collapsed">
+                                    <TextBlock Text="{Binding carbs}"/>
+
+                                </Border>
+                            </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -102,6 +306,11 @@
             </ListBox>
             <Image x:Name="image" Margin="20" Grid.RowSpan="2" 
                                        Source="{Binding img.path}" Grid.Row="1"/>
+            <TextBlock
+            	TextWrapping="Wrap"
+            	Pivot.SlideInAnimationGroup="1"
+            	CommonNavigationTransitionInfo.IsStaggerElement="True"
+            	Margin="0,22,0,16" FontSize="20" Text="{Binding event_name}" RenderTransformOrigin="0.491,0.57" Foreground="White" d:LayoutOverrides="Height, TopPosition, BottomPosition" Grid.Column="1" HorizontalAlignment="Left"/>
         </Grid>
         <Frame x:Name="frame" Content="Frame" HorizontalAlignment="Left" Margin="445,290,-185,0" VerticalAlignment="Top" Width="100"/>
     </Grid>

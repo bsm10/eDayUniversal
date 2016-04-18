@@ -11,7 +11,7 @@
     DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
     d:DataContext="{Binding events, 
     Source={d:DesignData Source=/DataModel/eDayData.json, IsDesignTimeCreatable=True,
-    Type = data:eDayDataSource}}"
+    Type = data:eDayDataSource}}"   
 >
     <Page.Resources>
         <local:CheckToVisibility x:Key="CheckToVisibility"/>
@@ -58,10 +58,12 @@
                >
             <Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <StackPanel>
+                    <Border BorderThickness="1" CornerRadius="2">
+                        <StackPanel>
                         <TextBlock FontSize="20" Text="{Binding Day, Mode=OneWay}" Margin="0,0,0,0" FontFamily="Segoe WP Semibold" FontWeight="Bold"/>
                         <TextBlock FontSize="14" Text="{Binding Date, Mode=OneWay}"/>
                     </StackPanel>
+                    </Border>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
             <Pivot.ItemTemplate>
@@ -73,21 +75,21 @@
                         IsItemClickEnabled="True" FontSize="18.667" >
                         <GridView.ItemTemplate>
                             <DataTemplate>
-                                <Grid x:Name="gridItem" Width="160" Margin="0" 
+                                <Grid x:Name="gridItem" Width="162" Margin="0" 
                                       Opacity="{Binding confirmed, 
-                                      Converter={StaticResource CheckToOpacity}}">
+                                      Converter={StaticResource CheckToOpacity}}" CornerRadius="2">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="80"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="60"/>
                                         <RowDefinition Height="40"/>
                                     </Grid.RowDefinitions>
                                     <Border x:Name="border" Grid.ColumnSpan="2"
-                                            Margin="2" Grid.RowSpan="2" Canvas.ZIndex="-1" 
+                                            Margin="2,2,-2,2" Grid.RowSpan="2" Canvas.ZIndex="-1" 
                                             Background="{Binding event_class, Converter={StaticResource ClassToColor}}" 
-                                            BorderThickness="2" FlyoutBase.AttachedFlyout="{StaticResource flyoutEvent}"/>
+                                            BorderThickness="1" CornerRadius="2" BorderBrush="{Binding event_class, Converter={StaticResource ClassToColor}}"/>
                                     <TextBlock TextWrapping="Wrap"
                                                 Pivot.SlideInAnimationGroup="1"
                                                 CommonNavigationTransitionInfo.IsStaggerElement="True"
@@ -108,9 +110,9 @@
                                         Grid.ColumnSpan="2" 
                                         Foreground="White"/>
                                     <Image x:Name="image" Margin="10,0,0,0"
-                                       d:LayoutOverrides="LeftPosition, 
-                                           RightPosition" Width="50" Height="50"
-                                           Source="{Binding img.path}" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                       d:LayoutOverrides="LeftPosition, RightPosition"
+                                           Width="30" Height="30"
+                                           Source="{Binding img.path}" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0.804,0"/>
                                 </Grid>
                             </DataTemplate>
                         </GridView.ItemTemplate>
@@ -121,12 +123,12 @@
     </Grid>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Uid="AddAppBarButton" x:Name="AddEventButton" Label="добавить" Icon="Add" Click="AddAppBarButton_Click" />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="AddEventButton" Label="добавить" Icon="Add" />
             <AppBarButton x:Uid="AddAppBarButton" x:Name="MessageButton" Label="уведомления" Icon="Message"  />
             <AppBarButton x:Uid="AddAppBarButton" x:Name="ProfileButton"  Label="профиль" Icon="ContactPresence" />
             <AppBarButton x:Uid="AddAppBarButton" x:Name="SettingsButton" Label="настройки" Icon="Setting" />
             <CommandBar.SecondaryCommands>
-                <AppBarToggleButton x:Uid="AllTasks" x:Name="AllTasks" Label="Отображать все задачи" IsChecked="True" />
+                <AppBarToggleButton x:Uid="AllTasks" x:Name="AllTasks" Label="Отображать все задачи" IsChecked="True" Checked="AllTasks_Checked" Unchecked="AllTasks_Unchecked" />
                 <AppBarToggleButton x:Uid="RepeatBox" x:Name="RepeatBox" Label="Повторять напоминание"/>
                 <AppBarButton x:Uid="CalendarButton" x:Name="CalendarButton" Label="Календарь" Tapped="CalendarButton_Tapped" Flyout="{StaticResource flyoutCalendar}" />
 

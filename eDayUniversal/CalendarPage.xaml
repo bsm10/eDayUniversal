@@ -9,14 +9,14 @@
     xmlns:data="using:eDay.Data"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="333">
     <Page.Resources>
-        <Flyout x:Name="flyOut" x:Key="FlyoutBase1" Placement="Bottom">
+        <!--<Flyout x:Name="flyOut" x:Key="FlyoutBase1" Placement="Bottom">
             <Pivot>
                 <Pivot.DataContext>
                     <local:Events/>
                 </Pivot.DataContext>
 
             </Pivot>
-        </Flyout>
+        </Flyout>-->
     </Page.Resources>
 
     <Grid Height="332">
