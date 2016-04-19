@@ -60,6 +60,7 @@ namespace eDay
             if (event_ForConfirm.confirmed == 1) UnScheduleToast(event_ForConfirm.id.ToString());
             flyoutEvent.Hide();
             string s = event_ForConfirm.confirmed == 1 ? "Событие подтверждено!" : "Отметка о подтверждении снята!";
+            await UpdateData();
             NotifyUser(s, NotifyType.StatusMessage, StatusBorder, StatusBlock,1);
         }
 
@@ -250,9 +251,9 @@ namespace eDay
             if (AllTasks.IsChecked==false) HideConfirmed();
             //pivot.ItemsSource = eDayDataGroup;
             pivot.DataContext = eDayDataGroup;
-            //EventsByDay ebd = await eDayDataSource.GetEventsByDateAsync(DateTime.Today.ToString("yyyy-MM-dd")) as EventsByDay;
-            //var q = from EventsByDay p in pivot.Items where DateTime.Parse(p.ToString()) == DateTime.Today select p;
-            //if (q.Count<Event>() != 0) pivot.SelectedItem = q.First();
+            EventsByDay ebd = await eDayDataSource.GetEventsByDateAsync(DateTime.Today.ToString("yyyy-MM-dd")) as EventsByDay;
+            var q = from EventsByDay p in pivot.Items where DateTime.Parse(p.ToString()) == DateTime.Today select p;
+            if (q.Count() != 0) pivot.SelectedItem = q.First();
             pivot.Title = "Сегодня " + DateTime.Today.ToString("dddd dd-MMM-yyyy");
             
         }
@@ -274,12 +275,12 @@ namespace eDay
             foreach (EventsByDay evbd in eDayDataGroup)
             {
                 EventsByDay ebd_temp = new EventsByDay();
-                var q = evbd.SkipWhile(evnt => evnt.confirmed == 1);
+                var q = evbd.Where(evnt => evnt.confirmed == 0);
                 foreach (Event ev in q)
                 {
                     ebd_temp.eventsByDay.Add(ev);
                 }
-                eD.Add(ebd_temp);
+                if(q.Count()!=0)eD.Add(ebd_temp);
             }
             eDayDataGroup = eD;
         }

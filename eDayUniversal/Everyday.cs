@@ -150,68 +150,100 @@ namespace eDay
             return "Events count " + events.Count;
         }
     }
-    public class EventsByDay : ICollection<Event>
+    public class EventsByDay : IList<Event>
     {
         public EventsByDay()
         {
-            eventsByDay = new ObservableCollection<Event>();
+            eventsByDay = new List<Event>();
+        }
+
+        public Event this[int index]
+        {
+            get
+            {
+                return ((IList<Event>)eventsByDay)[index];
+            }
+
+            set
+            {
+                ((IList<Event>)eventsByDay)[index] = value;
+            }
         }
 
         public int Count
         {
             get
             {
-                return ((ICollection<Event>)eventsByDay).Count;
+                return ((IList<Event>)eventsByDay).Count;
             }
         }
 
         public string Date
         {
-            get { return DateTime.Parse(eventsByDay[0].date).ToString("dd.MM.yyyy"); }
+            get { if (eventsByDay.Count != 0) return DateTime.Parse(eventsByDay[0].date).ToString("dd.MM.yyyy");
+                else return "";
+            }
         }
         public string Day
         {
-            get { return DateTime.Parse(eventsByDay[0].date).ToString("dddd"); }
+            get { if (eventsByDay.Count != 0) return DateTime.Parse(eventsByDay[0].date).ToString("dddd");
+                else return "";
+            }
         }
 
-        public ObservableCollection<Event> eventsByDay { get; set; }
+        public List<Event> eventsByDay { get; set; }
 
         public bool IsReadOnly
         {
             get
             {
-                return ((ICollection<Event>)eventsByDay).IsReadOnly;
+                return ((IList<Event>)eventsByDay).IsReadOnly;
             }
         }
 
         public void Add(Event item)
         {
-            ((ICollection<Event>)eventsByDay).Add(item);
+            ((IList<Event>)eventsByDay).Add(item);
         }
 
         public void Clear()
         {
-            ((ICollection<Event>)eventsByDay).Clear();
+            ((IList<Event>)eventsByDay).Clear();
         }
 
         public bool Contains(Event item)
         {
-            return ((ICollection<Event>)eventsByDay).Contains(item);
+            return ((IList<Event>)eventsByDay).Contains(item);
         }
 
         public void CopyTo(Event[] array, int arrayIndex)
         {
-            ((ICollection<Event>)eventsByDay).CopyTo(array, arrayIndex);
+            ((IList<Event>)eventsByDay).CopyTo(array, arrayIndex);
         }
 
         public IEnumerator<Event> GetEnumerator()
         {
-            return ((ICollection<Event>)eventsByDay).GetEnumerator();
+            return ((IList<Event>)eventsByDay).GetEnumerator();
+        }
+
+        public int IndexOf(Event item)
+        {
+            return ((IList<Event>)eventsByDay).IndexOf(item);
+        }
+
+        public void Insert(int index, Event item)
+        {
+            ((IList<Event>)eventsByDay).Insert(index, item);
         }
 
         public bool Remove(Event item)
         {
-            return ((ICollection<Event>)eventsByDay).Remove(item);
+            return ((IList<Event>)eventsByDay).Remove(item);
+        }
+
+        public void RemoveAt(int index)
+        {
+            ((IList<Event>)eventsByDay).RemoveAt(index);
         }
 
         public override string ToString()
@@ -221,7 +253,7 @@ namespace eDay
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((ICollection<Event>)eventsByDay).GetEnumerator();
+            return ((IList<Event>)eventsByDay).GetEnumerator();
         }
     }
     public class Item
