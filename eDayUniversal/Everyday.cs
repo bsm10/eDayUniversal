@@ -688,6 +688,31 @@ namespace eDay
             throw new NotImplementedException();
         }
     }
+    public class DayToColor : IValueConverter
+    {
+        // This converts the Day to the string to Color like ""#FF00D0"".
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            string strColor = string.Empty;
+            if (value != null & DateTime.Today.ToString("dd.MM.yyyy")==(string)value)
+            {
+                strColor = "#FF75A456";
+            }
+            else
+            {
+                strColor = "#FF7194BF";
+            }
+
+            return strColor;
+        }
+
+        // No need to implement converting back on a one-way binding 
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class CheckToVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

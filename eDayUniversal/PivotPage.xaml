@@ -14,6 +14,7 @@
     Type = data:eDayDataSource}}"   
 >
     <Page.Resources>
+        <local:DayToColor x:Key="DayToColor"/>
         <local:CheckToVisibility x:Key="CheckToVisibility"/>
         <JumpListItemBackgroundConverter x:Key="JumpListItemBackgroundConverter"/>
         <local:IntToBool x:Key="IntToBool"/>
@@ -25,8 +26,6 @@
         <Flyout x:Name="flyoutCalendar">
             <local:CalendarPage/>
         </Flyout>
-
-
     </Page.Resources>
     <FlyoutBase.AttachedFlyout>
         <StaticResource ResourceKey="flyoutEvent"/>
@@ -56,13 +55,14 @@
                CommonNavigationTransitionInfo.IsStaggerElement="True" 
                Margin="0,0,0,50" ItemsSource="{Binding}" BorderThickness="0"
                >
+
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <Border BorderThickness="1" CornerRadius="2">
                         <StackPanel>
-                        <TextBlock FontSize="20" Text="{Binding Day, Mode=OneWay}" Margin="0,0,0,0" FontFamily="Segoe WP Semibold" FontWeight="Bold"/>
-                        <TextBlock FontSize="14" Text="{Binding Date, Mode=OneWay}"/>
-                    </StackPanel>
+                            <TextBlock FontSize="20" Text="{Binding Day, Mode=OneWay}" Margin="0,0,0,0" FontFamily="Segoe WP Semibold" FontWeight="Normal" Foreground="{Binding Date, Converter={StaticResource DayToColor}, Mode=OneWay}"/>
+                            <TextBlock FontSize="14" Text="{Binding Date, Mode=OneWay}" Foreground="{Binding Date, Converter={StaticResource DayToColor}, Mode=OneWay}"/>
+                        </StackPanel>
                     </Border>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
@@ -128,7 +128,7 @@
             <AppBarButton x:Uid="AddAppBarButton" x:Name="ProfileButton"  Label="профиль" Icon="ContactPresence" />
             <AppBarButton x:Uid="AddAppBarButton" x:Name="SettingsButton" Label="настройки" Icon="Setting" />
             <CommandBar.SecondaryCommands>
-                <AppBarToggleButton x:Uid="AllTasks" x:Name="AllTasks" Label="Отображать все задачи" IsChecked="True" Checked="AllTasks_Checked" Unchecked="AllTasks_Unchecked" />
+                <AppBarToggleButton x:Uid="AllTasks" x:Name="AllTasks" Label="Отображать все задачи" Checked="AllTasks_Checked" Unchecked="AllTasks_Unchecked" />
                 <AppBarToggleButton x:Uid="RepeatBox" x:Name="RepeatBox" Label="Повторять напоминание"/>
                 <AppBarButton x:Uid="CalendarButton" x:Name="CalendarButton" Label="Календарь" Tapped="CalendarButton_Tapped" Flyout="{StaticResource flyoutCalendar}" />
 
