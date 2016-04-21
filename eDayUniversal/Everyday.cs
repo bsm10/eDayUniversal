@@ -248,7 +248,7 @@ namespace eDay
 
         public override string ToString()
         {
-            return eventsByDay[0].date.ToString();
+            return DateTime.Parse(eventsByDay[0].date).ToString("ddd dd.MM.yy");//eventsByDay[0].date.ToString();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

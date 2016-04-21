@@ -16,7 +16,7 @@
     <Page.Resources>
         <local:DayToColor x:Key="DayToColor"/>
         <local:CheckToVisibility x:Key="CheckToVisibility"/>
-        <JumpListItemBackgroundConverter x:Key="JumpListItemBackgroundConverter"/>
+        <!--<JumpListItemBackgroundConverter x:Key="JumpListItemBackgroundConverter"/>-->
         <local:IntToBool x:Key="IntToBool"/>
         <local:ClassToColor x:Key="ClassToColor"/>
         <local:ConfirmedToOpacity x:Key="CheckToOpacity"/>
@@ -53,19 +53,26 @@
         </Border>
         <Pivot x:Uid="Pivot" Title="EVERYDAY" x:Name="pivot"
                CommonNavigationTransitionInfo.IsStaggerElement="True" 
-               Margin="0,0,0,50" ItemsSource="{Binding}" BorderThickness="0"
+               Margin="0,0,0,50" ItemsSource="{Binding}" BorderThickness="0" 
                >
-
-            <Pivot.HeaderTemplate>
+            <!--<Pivot.HeaderTemplate>
                 <DataTemplate>
-                    <Border BorderThickness="1" CornerRadius="2">
+                    <Border BorderThickness="1">
                         <StackPanel>
-                            <TextBlock FontSize="20" Text="{Binding Day, Mode=OneWay}" Margin="0,0,0,0" FontFamily="Segoe WP Semibold" FontWeight="Normal" Foreground="{Binding Date, Converter={StaticResource DayToColor}, Mode=OneWay}"/>
-                            <TextBlock FontSize="14" Text="{Binding Date, Mode=OneWay}" Foreground="{Binding Date, Converter={StaticResource DayToColor}, Mode=OneWay}"/>
+                            <TextBlock FontSize="20"
+                                       Text="{Binding Day, Mode=OneWay}" 
+                                       Margin="0,0,0,0" 
+                                       FontFamily="Segoe WP Semibold" 
+                                       FontWeight="Normal" 
+                                       Foreground="{Binding Date, Converter={StaticResource DayToColor}, Mode=OneWay}"
+                                       />
+                            <TextBlock FontSize="14"
+                                       Text="{Binding Date, Mode=OneWay}" 
+                                       Foreground="{Binding Date, Converter={StaticResource DayToColor}, Mode=OneWay}"/>
                         </StackPanel>
                     </Border>
                 </DataTemplate>
-            </Pivot.HeaderTemplate>
+            </Pivot.HeaderTemplate>-->
             <Pivot.ItemTemplate>
                 <DataTemplate>
                     <GridView x:Name="gridView"
@@ -89,7 +96,7 @@
                                     <Border x:Name="border" Grid.ColumnSpan="2"
                                             Margin="2,2,-2,2" Grid.RowSpan="2" Canvas.ZIndex="-1" 
                                             Background="{Binding event_class, Converter={StaticResource ClassToColor}}" 
-                                            BorderThickness="1" CornerRadius="2" BorderBrush="{Binding event_class, Converter={StaticResource ClassToColor}}"/>
+                                            BorderThickness="1" BorderBrush="{Binding event_class, Converter={StaticResource ClassToColor}}"/>
                                     <TextBlock TextWrapping="Wrap"
                                                 Pivot.SlideInAnimationGroup="1"
                                                 CommonNavigationTransitionInfo.IsStaggerElement="True"
