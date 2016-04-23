@@ -133,7 +133,7 @@ namespace eDay
     /// <summary>
     /// Универсальная модель данных групп.
     /// </summary>
-    public class Events
+    public class Events //: ObservableCollection<EventsByDay>
     {
         public Events()
         {

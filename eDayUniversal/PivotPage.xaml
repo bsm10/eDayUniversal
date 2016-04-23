@@ -26,6 +26,118 @@
         <Flyout x:Name="flyoutCalendar">
             <local:CalendarPage/>
         </Flyout>
+        <DataTemplate x:Key="PivotHeaderTemplate_eDay">
+            <Border x:Name="BorderSelectedDay" BorderThickness="1" >
+                <StackPanel>
+                    <TextBlock FontSize="20"
+        				Text="{Binding Day, Mode=OneWay}" 
+        				Margin="0,0,0,0" 
+        				FontFamily="Segoe WP Semibold" 
+        				FontWeight="Normal" 
+                                       />
+                    <TextBlock FontSize="14"
+        				Text="{Binding Date, Mode=OneWay}" 
+        				Foreground="{Binding Date, Converter={StaticResource DayToColor}, Mode=OneWay}"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="PivotItemDataTemplate_eDay">
+            <GridView x:Name="gridView"
+        		VerticalContentAlignment="Stretch" 
+        		ItemsSource="{Binding eventsByDay}"
+        		ItemClick="GridView_ItemClick" 
+        		IsItemClickEnabled="True" FontSize="18.667" >
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid x:Name="gridItem" Width="162" Margin="0" 
+        					Opacity="{Binding confirmed, Converter={StaticResource CheckToOpacity}}" CornerRadius="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
+                            <Border x:Name="border" Grid.ColumnSpan="2"
+        						Margin="2,2,1,2" Grid.RowSpan="2" Canvas.ZIndex="-1" 
+        						Background="{Binding event_class, Converter={StaticResource ClassToColor}}" 
+        						BorderThickness="1" BorderBrush="{Binding event_class, Converter={StaticResource ClassToColor}}"/>
+                            <TextBlock TextWrapping="Wrap"
+        						Pivot.SlideInAnimationGroup="1"
+        						CommonNavigationTransitionInfo.IsStaggerElement="True"
+        						Margin="0" FontSize="24" HorizontalAlignment="Left"
+        						Text="{Binding time}" RenderTransformOrigin="0.491,0.57" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center" FontFamily="Segoe WP Black" Foreground="White"/>
+                            <TextBlock
+        						Pivot.SlideInAnimationGroup="1"
+        						CommonNavigationTransitionInfo.IsStaggerElement="True"
+        						Margin="15,0,0,0" FontSize="18"
+        						Text="{Binding event_name}" 
+        						TextTrimming="None" 
+        						TextAlignment="Center" 
+        						Width="Auto"
+        						TextWrapping="WrapWholeWords"
+        						HorizontalAlignment="Left" 
+        						VerticalAlignment="Top" 
+        						Grid.Row="1" 
+        						Grid.ColumnSpan="2" 
+        						Foreground="White"/>
+                            <Image x:Name="image" Margin="10,0,0,0"
+        						d:LayoutOverrides="LeftPosition, RightPosition"
+        						Width="30" Height="30"
+        						Source="{Binding img.path}" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0.804,0"/>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </DataTemplate>
+        <Style x:Key="PivotHeaderPanelStyle__eDay" TargetType="PivotHeaderPanel">
+            <Setter Property="Background" Value="#FFB4F0F0"/>
+
+        </Style>
+        
+        <MenuFlyout x:Key="FlyoutAddEventButton">
+            <MenuFlyoutItem Text="Добавить прием пищи">
+                <MenuFlyoutItem.Template>
+                    <ControlTemplate TargetType="MenuFlyoutItem">
+                        <StackPanel Orientation="Horizontal" Background="#FF7194BF" Height="50">
+                            <Image Source="Assets/new-1.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
+                            <TextBlock Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </MenuFlyoutItem.Template>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Добавить прием препаратов">
+                <MenuFlyoutItem.Template>
+                    <ControlTemplate TargetType="MenuFlyoutItem">
+                        <StackPanel Orientation="Horizontal" Background="#FFB872A4" Height="50">
+                            <Image Source="Assets/new-2.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
+                            <TextBlock Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </MenuFlyoutItem.Template>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Добавить упражнение">
+                <MenuFlyoutItem.Template>
+                    <ControlTemplate TargetType="MenuFlyoutItem">
+                        <StackPanel Orientation="Horizontal" Background="#FFFF9B49" Height="50">
+                            <Image Source="Assets/new-3.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
+                            <TextBlock Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </MenuFlyoutItem.Template>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Добавить событие">
+                <MenuFlyoutItem.Template>
+                    <ControlTemplate TargetType="MenuFlyoutItem">
+                        <StackPanel Orientation="Horizontal" Background="#FF75A456" Height="50">
+                            <Image Source="Assets/new-9.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
+                            <TextBlock Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
+                        </StackPanel>
+                    </ControlTemplate>
+                </MenuFlyoutItem.Template>
+            </MenuFlyoutItem>
+        </MenuFlyout>
     </Page.Resources>
     <FlyoutBase.AttachedFlyout>
         <StaticResource ResourceKey="flyoutEvent"/>
@@ -53,84 +165,15 @@
         </Border>
         <Pivot x:Uid="Pivot" Title="EVERYDAY" x:Name="pivot"
                CommonNavigationTransitionInfo.IsStaggerElement="True" 
-               Margin="0,0,0,50" ItemsSource="{Binding}" BorderThickness="0" 
-               >
-            <!--<Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <Border BorderThickness="1">
-                        <StackPanel>
-                            <TextBlock FontSize="20"
-                                       Text="{Binding Day, Mode=OneWay}" 
-                                       Margin="0,0,0,0" 
-                                       FontFamily="Segoe WP Semibold" 
-                                       FontWeight="Normal" 
-                                       Foreground="{Binding Date, Converter={StaticResource DayToColor}, Mode=OneWay}"
-                                       />
-                            <TextBlock FontSize="14"
-                                       Text="{Binding Date, Mode=OneWay}" 
-                                       Foreground="{Binding Date, Converter={StaticResource DayToColor}, Mode=OneWay}"/>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </Pivot.HeaderTemplate>-->
-            <Pivot.ItemTemplate>
-                <DataTemplate>
-                    <GridView x:Name="gridView"
-                        VerticalContentAlignment="Stretch" 
-                        ItemsSource="{Binding eventsByDay}"
-                        ItemClick="GridView_ItemClick" 
-                        IsItemClickEnabled="True" FontSize="18.667" >
-                        <GridView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid x:Name="gridItem" Width="162" Margin="0" 
-                                      Opacity="{Binding confirmed, 
-                                      Converter={StaticResource CheckToOpacity}}" CornerRadius="2">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80"/>
-                                        <ColumnDefinition Width="80"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="60"/>
-                                        <RowDefinition Height="40"/>
-                                    </Grid.RowDefinitions>
-                                    <Border x:Name="border" Grid.ColumnSpan="2"
-                                            Margin="2,2,-2,2" Grid.RowSpan="2" Canvas.ZIndex="-1" 
-                                            Background="{Binding event_class, Converter={StaticResource ClassToColor}}" 
-                                            BorderThickness="1" BorderBrush="{Binding event_class, Converter={StaticResource ClassToColor}}"/>
-                                    <TextBlock TextWrapping="Wrap"
-                                                Pivot.SlideInAnimationGroup="1"
-                                                CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                                Margin="0" FontSize="24" HorizontalAlignment="Left"
-                                                Text="{Binding time}" RenderTransformOrigin="0.491,0.57" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center" FontFamily="Segoe WP Black" Foreground="White"/>
-                                    <TextBlock
-                                        Pivot.SlideInAnimationGroup="1"
-                                        CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                        Margin="15,0,0,0" FontSize="18"
-                                        Text="{Binding event_name}" 
-                                        TextTrimming="None" 
-                                        TextAlignment="Center" 
-                                        Width="Auto"
-                                        TextWrapping="WrapWholeWords"
-                                        HorizontalAlignment="Left" 
-                                        VerticalAlignment="Top" 
-                                        Grid.Row="1" 
-                                        Grid.ColumnSpan="2" 
-                                        Foreground="White"/>
-                                    <Image x:Name="image" Margin="10,0,0,0"
-                                       d:LayoutOverrides="LeftPosition, RightPosition"
-                                           Width="30" Height="30"
-                                           Source="{Binding img.path}" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0.804,0"/>
-                                </Grid>
-                            </DataTemplate>
-                        </GridView.ItemTemplate>
-                    </GridView>
-                </DataTemplate>
-            </Pivot.ItemTemplate>
+               Margin="0,0,0,50" 
+               ItemsSource="{Binding}"
+               ItemTemplate="{StaticResource PivotItemDataTemplate_eDay}"
+               SelectionChanged="pivot_SelectionChanged" HeaderTemplate="{StaticResource PivotHeaderTemplate_eDay}">
         </Pivot>
     </Grid>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Uid="AddAppBarButton" x:Name="AddEventButton" Label="добавить" Icon="Add" />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="AddEventButton" Label="добавить" Icon="Add" Flyout="{StaticResource FlyoutAddEventButton}" />
             <AppBarButton x:Uid="AddAppBarButton" x:Name="MessageButton" Label="уведомления" Icon="Message"  />
             <AppBarButton x:Uid="AddAppBarButton" x:Name="ProfileButton"  Label="профиль" Icon="ContactPresence" />
             <AppBarButton x:Uid="AddAppBarButton" x:Name="SettingsButton" Label="настройки" Icon="Setting" />

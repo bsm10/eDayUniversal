@@ -47,7 +47,7 @@
                                     TextWrapping="Wrap"
                                     Pivot.SlideInAnimationGroup="1"
                                     CommonNavigationTransitionInfo.IsStaggerElement="True"
-                                    Margin="0" FontSize="18" Text="{Binding expert_name}" RenderTransformOrigin="0.491,0.57" HorizontalAlignment="Left" Width="Auto" VerticalAlignment="Center" FontFamily="Segoe UI Semilight" Foreground="White"/>
+                                    Margin="0,0,10,0" FontSize="18" Text="{Binding expert_name}" RenderTransformOrigin="0.491,0.57" HorizontalAlignment="Left" Width="Auto" VerticalAlignment="Center" FontFamily="Segoe UI Semilight" Foreground="White"/>
 
             </StackPanel>
             <CheckBox x:Name="checkBoxCofirm"

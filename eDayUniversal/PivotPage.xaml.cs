@@ -22,6 +22,7 @@ using static eDay.NotifyAndSchedule;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Controls.Primitives;
 using System.Linq;
+using Windows.UI;
 
 // Документацию по шаблону "Приложение с Pivot" см. по адресу http://go.microsoft.com/fwlink/?LinkID=391641
 
@@ -290,6 +291,34 @@ namespace eDay
             await UpdateData();
         }
 
+        private void pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            PivotItem pivotItemSelected = pivot.ContainerFromItem(pivot.SelectedItem) as PivotItem;
+            var q = pivot.Template;
+            if (pivotItemSelected != null)
+            {
+                //DataTemplate HeaderTemplate =  "{StaticResource PivotHeaderTemplate_eDay}";
+                //pivot.HeaderTemplate =  
+                //PivotHeaderItem phi = (PivotHeaderItem)pivotItemSelected.Header;
+                //if (phi != null) phi.Background = new SolidColorBrush(Colors.Blue);
+            }
+                    
+                    
 
+            //for (int i = 0; i < pivot.Items.Count; i++)
+            //{
+            //    PivotItem pivotItem = pivot.Items[i] as PivotItem;
+            //    TextBlock tb = pivotItem.Header as TextBlock;
+            //    if (pivotItem == pivotItemSelected)
+            //    {
+            //        //Style 
+            //        tb.Foreground = new SolidColorBrush(Colors.Blue);
+            //    }
+            //    else
+            //    {
+            //        tb.Foreground = new SolidColorBrush(Colors.Black);
+            //    }
+            //}
+        }
     }
 }
