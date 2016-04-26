@@ -1,0 +1,81 @@
+﻿<ContentDialog x:Name="addEvent"
+    x:Class="eDay.AddEvent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:eDay"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:eDay.Data"
+    mc:Ignorable="d"
+    Title="Добавить событие"
+    PrimaryButtonText="Ок"
+    SecondaryButtonText="Отмена"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick" 
+    d:DataContext="{Binding events, 
+    Source={d:DesignData Source=/DataModel/eDayData.json,IsDesignTimeCreatable=True,
+                         Type = data:eDayDataSource}}" 
+               >
+    <ContentDialog.DataContext>
+        <local:Event/>
+    </ContentDialog.DataContext>
+    <ContentDialog.Resources>
+        <local:ClassToColor x:Key="ClassToColor"/>
+    </ContentDialog.Resources>
+    <ContentDialog.Background>
+        <Binding Converter="{StaticResource ClassToColor}" Path="event_class"  />
+    </ContentDialog.Background>
+
+    <Grid Height="213"
+          d:DataContext="{Binding [1].eventsByDay[3]}"
+          Background="{Binding event_class, Converter={StaticResource ClassToColor}}"
+          >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" MaxWidth="150" />
+            <ColumnDefinition Width="*" />
+            <!--<ColumnDefinition Width="*" />-->
+        </Grid.ColumnDefinitions>
+        <DatePicker HorizontalAlignment="Center" Height="50" Margin="0" VerticalAlignment="Center" Width="130" Grid.ColumnSpan="2"/>
+        <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="Auto" Margin="0" Grid.Row="1" VerticalAlignment="Top" Width="298">
+            <TextBlock Text="Название события"/>
+            <TextBox x:Name="txtEvent" Text="{Binding event_name, Mode=TwoWay}"/>
+            <TextBlock Text="Детали события"/>
+            <TextBox x:Name="txtDescription" Height="60" Text="{Binding details.items[0].caption, Mode=TwoWay}"/>
+            <!--<TextBlock Text="Тип события"/>
+            <ComboBox Width="298">
+                <ComboBoxItem x:Name="Class1">
+                    <StackPanel Orientation="Horizontal" Background="#FF7194BF" Height="50">
+                        <Image Source="Assets/new-1.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
+                        <TextBlock Text="Прием пищи" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem x:Name="Class2">
+                    <StackPanel Orientation="Horizontal" Background="#FFB872A4" Height="50">
+                        <Image Source="Assets/new-2.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
+                        <TextBlock Text="Прием препаратов" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem x:Name="Class3">
+                    <StackPanel Orientation="Horizontal" Background="#FFFF9B49" Height="50">
+                        <Image Source="Assets/new-3.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
+                        <TextBlock Text="Упражнения" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
+                    </StackPanel>
+                </ComboBoxItem>
+                <ComboBoxItem x:Name="Class9">
+                    <StackPanel Orientation="Horizontal" Background="#FF75A456" Height="50">
+                        <Image Source="Assets/new-9.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
+                        <TextBlock Text="Дела" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
+                    </StackPanel>
+                </ComboBoxItem>
+
+            </ComboBox>-->
+        </StackPanel>
+
+    </Grid>
+</ContentDialog>

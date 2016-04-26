@@ -55,81 +55,6 @@ namespace eDay
 
 
     }
-
-    /// <summary>
-    /// Универсальная модель данных элементов.
-    /// </summary>
-    //public class Event : INotifyPropertyChanged
-    //{
-    //    public Event(double event_id, string img, string time, string expert, string caption, bool unscheduled, string items_count, double confirmed)
-    //    {
-    //        Event_id = event_id;
-    //        Img = img;
-    //        Time = time;
-    //        Expert = expert;
-    //        Caption = caption;
-    //        Items = new ObservableCollection<Items>();
-    //        Confirmed = confirmed;
-    //        Items_count = items_count;
-    //        Unscheduled = unscheduled;
-    //    }
-    //    private string _caption;
-    //    private double _confirmed;
-    //    public double Event_id { get; set; }
-    //    public string Img { get; set; }
-    //    public string Time { get; set; }
-    //    public string Expert { get; set; }
-    //    public string Caption
-    //    {
-    //        get
-    //        {
-    //            return _caption;
-    //        }
-    //        set
-    //        {
-    //            if (Caption != value)
-    //            {
-    //                _caption = value;
-    //                OnPropertyChanged("caption");
-    //            }
-    //        }
-    //    }
-    //    //public int confirmed { get; set; }
-    //    public double Confirmed
-    //    {
-    //        get
-    //        {
-    //            return _confirmed;
-    //        }
-    //        set
-    //        {
-    //            if (_confirmed != value)
-    //            {
-    //                _confirmed = value;
-    //                OnPropertyChanged("_confirmed");
-    //            }
-    //        }
-    //    }
-    //    public string Items_count { get; set; }
-    //    public ObservableCollection<Items> Items { get; set; }
-    //    public bool Unscheduled { get; set; }
-    //    //public double _Class { get; set; }
-    //    public override string ToString()
-    //    {
-    //        return Caption;
-    //    }
-    //    public event PropertyChangedEventHandler PropertyChanged;
-    //    private void OnPropertyChanged(string info)
-    //    {
-    //        PropertyChangedEventHandler handler = PropertyChanged;
-    //        if (handler != null)
-    //        {
-    //            handler(this, new PropertyChangedEventArgs(info));
-    //        }
-    //    }
-
-    //}
-
     /// <summary>
     /// Универсальная модель данных групп.
     /// </summary>
@@ -414,38 +339,6 @@ namespace eDay
         }
 
     }
-    //public class Event : INotifyPropertyChanged
-    //{
-    //    public string Caption
-    //    {
-    //        get
-    //        {
-    //            return _caption;
-    //        }
-    //        set
-    //        {
-    //            if (Caption != value)
-    //            {
-    //                _caption = value;
-    //                OnPropertyChanged("caption");
-    //            }
-    //        }
-    //    }
-    //    public override string ToString()
-    //    {
-    //        return Caption;
-    //    }
-    //    public event PropertyChangedEventHandler PropertyChanged;
-    //    private void OnPropertyChanged(string info)
-    //    {
-    //        PropertyChangedEventHandler handler = PropertyChanged;
-    //        if (handler != null)
-    //        {
-    //            handler(this, new PropertyChangedEventArgs(info));
-    //        }
-    //    }
-
-    //}
     public static class Everyday
     {
         private static LoginData loginData = new LoginData();
@@ -576,6 +469,19 @@ namespace eDay
             response = await resp.Content.ReadAsStringAsync();
             if (save_data) await saveStringToLocalFile(response);
         }
+        public static async Task AddEvent(int classEvent)
+        {
+            AddEvent addEventDialog = new AddEvent();
+            Event newEvent = new Event();
+            newEvent.event_class = classEvent;
+            addEventDialog.DataContext = newEvent;
+            var result = await addEventDialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+
+            }
+
+        }
         public static async Task ConfirmEvent(Event eventForConfirm, int confirmed = 1)
         {
             if (loginData == null) return;
@@ -586,7 +492,6 @@ namespace eDay
             resp.EnsureSuccessStatusCode();
             response = await resp.Content.ReadAsStringAsync();
         }
-
         private static async Task saveStringToLocalFile(string content)
         {
             //Uri fileUri = new Uri("ms-appx:///DataModel/eDayData.json");
@@ -604,7 +509,6 @@ namespace eDay
                 await d.ShowAsync();
             }
         }
-
         private static async Task<string> readStringFromLocalFile(string filename)
         {
             StorageFolder local = ApplicationData.Current.LocalFolder;
@@ -616,7 +520,6 @@ namespace eDay
             }
             return text;
         }
-
         /// <summary>
         /// Проверяет есть ли подключение к интернету. Возвращает Истину если Да
         /// </summary>
@@ -628,7 +531,6 @@ namespace eDay
                     connectionProfile.GetNetworkConnectivityLevel() == NetworkConnectivityLevel.InternetAccess);
         }
     }
-
     public class IntToBool : IValueConverter
     {
         // This converts the DateTime object to the string to display.
@@ -664,16 +566,16 @@ namespace eDay
                 switch (val)
                 {
                     case 1:
-                        strColor = "#FF7194BF";
+                        strColor = ColorEvent.ColorClass1;//"#FF7194BF";
                         break;
                     case 2:
-                        strColor = "#FFB872A4";
+                        strColor = ColorEvent.ColorClass2;//"#FFB872A4";
                         break;
                     case 3:
-                        strColor = "#FFFF9B49";
+                        strColor = ColorEvent.ColorClass3; //"#FFFF9B49";
                         break;
                     case 9:
-                        strColor = "#FF75A456";
+                        strColor = ColorEvent.ColorClass9; //"#FF75A456";
                         break;
                 }
 
@@ -712,7 +614,6 @@ namespace eDay
             throw new NotImplementedException();
         }
     }
-
     public class CheckToVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
@@ -749,4 +650,11 @@ namespace eDay
         }
     }
 
+    public static class ColorEvent   
+    {
+        public const string ColorClass1 = "#FF7194BF";
+        public const string ColorClass2 = "#FFB872A4";
+        public const string ColorClass3 = "#FFFF9B49";
+        public const string ColorClass9 = "#FF75A456";
+    }
 }

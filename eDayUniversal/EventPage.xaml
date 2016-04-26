@@ -23,7 +23,7 @@
     </Page.Resources>
     <Grid x:Name="ContentRoot" 
            d:DataContext="{Binding [1].eventsByDay[3]}"
-            Background="{Binding event_class, Converter={StaticResource ClassToColor}}"
+           Background="{Binding event_class, Converter={StaticResource ClassToColor}}"
             VerticalAlignment="Top">
         <Grid x:Name="grid" VerticalAlignment="Top">
             <Grid.RowDefinitions>
