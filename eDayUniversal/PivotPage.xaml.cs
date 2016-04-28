@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Media;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using static eDay.NotifyAndSchedule;
+using static eDay.ColorEvent;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Controls.Primitives;
 using System.Linq;
@@ -86,6 +87,7 @@ namespace eDay
         public NavigationHelper NavigationHelper
         {
             get { return navigationHelper; }
+            
         }
 
         /// <summary>
@@ -228,7 +230,7 @@ namespace eDay
                 case "SettingsButton":
                     break;
                 case "AddEventButton":
-
+                    
                     break;
                 case "UpdateButton":
                     break;

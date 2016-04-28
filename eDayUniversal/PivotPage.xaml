@@ -20,6 +20,7 @@
         <local:IntToBool x:Key="IntToBool"/>
         <local:ClassToColor x:Key="ClassToColor"/>
         <local:ConfirmedToOpacity x:Key="CheckToOpacity"/>
+        <!--<local:ColorEvent x:Key="ColorEvent"/>-->
         <Flyout x:Name="flyoutEvent">
             <local:EventPage/>
         </Flyout>
@@ -52,12 +53,12 @@
                         <Grid x:Name="gridItem" Width="162" Margin="0" 
         					Opacity="{Binding confirmed, Converter={StaticResource CheckToOpacity}}" CornerRadius="2">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="55"/>
+                                <ColumnDefinition Width="105"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="60"/>
-                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
                             <Border x:Name="border" Grid.ColumnSpan="2"
         						Margin="2,2,1,2" Grid.RowSpan="2" Canvas.ZIndex="-1" 
@@ -66,24 +67,25 @@
                             <TextBlock TextWrapping="Wrap"
         						Pivot.SlideInAnimationGroup="1"
         						CommonNavigationTransitionInfo.IsStaggerElement="True"
-        						Margin="0" FontSize="24" HorizontalAlignment="Left"
-        						Text="{Binding time}" RenderTransformOrigin="0.491,0.57" FontWeight="Bold" Grid.Column="1" VerticalAlignment="Center" FontFamily="Segoe WP Black" Foreground="White"/>
+        						Margin="0,8" FontSize="18" HorizontalAlignment="Left"
+        						Text="{Binding time}" 
+                                       Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       Foreground="White" 
+                                       Height="Auto" Width="Auto"/>
                             <TextBlock
         						Pivot.SlideInAnimationGroup="1"
         						CommonNavigationTransitionInfo.IsStaggerElement="True"
-        						Margin="15,0,0,0" FontSize="18"
+        						Margin="10,0,0,5" FontSize="14"
         						Text="{Binding event_name}" 
         						TextTrimming="None" 
-        						TextAlignment="Center" 
         						Width="Auto"
-        						TextWrapping="WrapWholeWords"
         						HorizontalAlignment="Left" 
-        						VerticalAlignment="Top" 
+        						VerticalAlignment="Center" 
         						Grid.Row="1" 
         						Grid.ColumnSpan="2" 
-        						Foreground="White"/>
-                            <Image x:Name="image" Margin="10,0,0,0"
-        						d:LayoutOverrides="LeftPosition, RightPosition"
+        						Foreground="White" Height="24"/>
+                            <Image x:Name="image" Margin="10,10,0,5"
         						Width="30" Height="30"
         						Source="{Binding img.path}" Grid.ColumnSpan="1" HorizontalAlignment="Left" VerticalAlignment="Center" RenderTransformOrigin="0.804,0"/>
                         </Grid>
@@ -95,48 +97,95 @@
             <Setter Property="Background" Value="#FFB4F0F0"/>
 
         </Style>
-        
+        <Style x:Key="MenuFlyoutItemStyle-ADD" TargetType="MenuFlyoutItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="Padding" Value="{ThemeResource MenuFlyoutItemThemePadding}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuFlyoutItem">
+                        <Grid x:Name="LayoutRoot"
+                              BorderBrush="{TemplateBinding BorderBrush}" 
+                              BorderThickness="{TemplateBinding BorderThickness}" 
+                              Background="{TemplateBinding Background}" 
+                              Padding="{TemplateBinding Padding}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="TextBlock"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="TextBlock">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="TextBlock"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="TextBlock">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="TextBlock"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="TextBlock">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckPlaceholderStates">
+                                    <VisualState x:Name="NoPlaceholder"/>
+                                    <VisualState x:Name="CheckPlaceholder">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="TextBlock">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="PaddingSizeStates">
+                                    <VisualState x:Name="DefaultPadding"/>
+                                    <VisualState x:Name="NarrowPadding">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Padding" Storyboard.TargetName="LayoutRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemThemePaddingNarrow}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <TextBlock x:Name="TextBlock" Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
+
+                            <!--<StackPanel Orientation="Horizontal" Height="50">
+                                <Image Source="Assets/new-1.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
+                                <TextBlock x:Name="TextBlock" Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
+                            </StackPanel>-->
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <MenuFlyout x:Key="FlyoutAddEventButton">
-            <MenuFlyoutItem Text="Добавить прием пищи">
-                <MenuFlyoutItem.Template>
-                    <ControlTemplate TargetType="MenuFlyoutItem">
-                        <StackPanel Orientation="Horizontal" Background="#FF7194BF" Height="50">
-                            <Image Source="Assets/new-1.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
-                            <TextBlock Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
-                        </StackPanel>
-                    </ControlTemplate>
-                </MenuFlyoutItem.Template>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem Text="Добавить прием препаратов">
-                <MenuFlyoutItem.Template>
-                    <ControlTemplate TargetType="MenuFlyoutItem">
-                        <StackPanel Orientation="Horizontal" Background="#FFB872A4" Height="50">
-                            <Image Source="Assets/new-2.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
-                            <TextBlock Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
-                        </StackPanel>
-                    </ControlTemplate>
-                </MenuFlyoutItem.Template>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem Text="Добавить упражнение">
-                <MenuFlyoutItem.Template>
-                    <ControlTemplate TargetType="MenuFlyoutItem">
-                        <StackPanel Orientation="Horizontal" Background="#FFFF9B49" Height="50">
-                            <Image Source="Assets/new-3.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
-                            <TextBlock Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
-                        </StackPanel>
-                    </ControlTemplate>
-                </MenuFlyoutItem.Template>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem Text="Добавить событие">
-                <MenuFlyoutItem.Template>
-                    <ControlTemplate TargetType="MenuFlyoutItem">
-                        <StackPanel Orientation="Horizontal" Background="#FF75A456" Height="50">
-                            <Image Source="Assets/new-9.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
-                            <TextBlock Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
-                        </StackPanel>
-                    </ControlTemplate>
-                </MenuFlyoutItem.Template>
-            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Добавить прием пищи" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+                            Background="#FF7194BF" />
+            <MenuFlyoutItem Text="Добавить прием препаратов" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+                            Background="#FFB872A4" />
+            <MenuFlyoutItem Text="Добавить упражнение" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+                            Background="#FFFF9B49" />
+            <MenuFlyoutItem Text="Добавить событие" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+                            Background="#FF75A456" />
         </MenuFlyout>
     </Page.Resources>
     <FlyoutBase.AttachedFlyout>

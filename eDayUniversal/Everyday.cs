@@ -650,7 +650,7 @@ namespace eDay
         }
     }
 
-    public static class ColorEvent   
+    public class ColorEvent   
     {
         public const string ColorClass1 = "#FF7194BF";
         public const string ColorClass2 = "#FFB872A4";
