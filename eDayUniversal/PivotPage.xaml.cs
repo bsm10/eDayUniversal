@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Media;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using static eDay.NotifyAndSchedule;
+using static eDay.Everyday;
 using static eDay.ColorEvent;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -58,7 +59,7 @@ namespace eDay
         private async void CheckConf_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Event event_ForConfirm = checkConf.DataContext as Event;
-            await Everyday.ConfirmEvent(event_ForConfirm, checkConf.IsChecked == true ? 1 : 0);
+            await ConfirmEvent(event_ForConfirm, checkConf.IsChecked == true ? 1 : 0);
             if (event_ForConfirm.confirmed == 1) UnScheduleToast(event_ForConfirm.id.ToString());
             flyoutEvent.Hide();
             string s = event_ForConfirm.confirmed == 1 ? "Событие подтверждено!" : "Отметка о подтверждении снята!";
@@ -68,10 +69,10 @@ namespace eDay
 
         async void OnLoaded(object sender, RoutedEventArgs arg)
         {
-            if (Everyday.Token == null)
+            if (Token == null)
             {
                 NotifyUser("Обновляю данные...", NotifyType.StatusMessage, StatusBorder, StatusBlock);
-                await Everyday.LoginEveryday();
+                await LoginEveryday();
                 await UpdateData();
                 foreach (Event e in eDayDataGroup[0].eventsByDay)
                 {
@@ -205,7 +206,7 @@ namespace eDay
         #endregion
         private async void SecondaryButton1_Click(object sender, RoutedEventArgs e)
         {
-            await Everyday.LoginEveryday();
+            await LoginEveryday();
         }
         private void listView_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
@@ -247,7 +248,7 @@ namespace eDay
         {
             int delta = DateTime.Today.DayOfWeek!=0 ? DayOfWeek.Monday - DateTime.Today.DayOfWeek : -6;
             DateTime monday = DateTime.Today.AddDays(delta);
-            await Everyday.GetEvents(monday.ToString("yyyy-MM-dd"), (monday + TimeSpan.FromDays(6)).ToString("yyyy-MM-dd"));
+            await GetEvents(monday.ToString("yyyy-MM-dd"), (monday + TimeSpan.FromDays(6)).ToString("yyyy-MM-dd"));
             //await Everyday.GetEvents(DateTime.Today.ToString("yyyy-MM-dd"), (DateTime.Today + TimeSpan.FromDays(7)).ToString("yyyy-MM-dd"));
             eDayDataGroup = await eDayDataSource.GetGroupsEventsAsync();
             DefaultViewModel[FirstGroupName] = eDayDataGroup;
@@ -322,5 +323,31 @@ namespace eDay
             //    }
             //}
         }
+
+        private async void MenuFlyoutItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            MenuFlyoutItem mfi = sender as MenuFlyoutItem;
+            int cls = 1;
+            switch (mfi.Name)
+            {
+                case "add_Class1":
+                    cls = 1;
+                    break;
+                case "add_Class2":
+                    cls = 2;
+                    break;
+                case "add_Class3":
+                    cls = 3;
+                    break;
+                case "add_Class9":
+                    cls = 9;
+                    break;
+            }
+            await AddEvent(cls);
+            await UpdateData();
+
+            NotifyUser("Событие добавлено!", NotifyType.StatusMessage, StatusBorder, StatusBlock, 1);
+        }
+
     }
 }

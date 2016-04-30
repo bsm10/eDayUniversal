@@ -31,9 +31,9 @@
           Background="{Binding event_class, Converter={StaticResource ClassToColor}}"
           >
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -41,12 +41,20 @@
             <ColumnDefinition Width="*" />
             <!--<ColumnDefinition Width="*" />-->
         </Grid.ColumnDefinitions>
-        <DatePicker HorizontalAlignment="Center" Height="50" Margin="0" VerticalAlignment="Center" Width="130" Grid.ColumnSpan="2"/>
+        <StackPanel Grid.ColumnSpan="2">
+            <TextBlock Text="Выберите дату"/>
+            <DatePicker x:Name="DatePicker" HorizontalAlignment="Center" Height="50" Margin="0" VerticalAlignment="Center" Width="130" />
+            <TextBlock Text="Выберите время"/>
+            <TimePicker x:Name="TimePicker" HorizontalAlignment="Center"/>
+        </StackPanel>
+        
         <StackPanel Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="Auto" Margin="0" Grid.Row="1" VerticalAlignment="Top" Width="298">
             <TextBlock Text="Название события"/>
-            <TextBox x:Name="txtEvent" Text="{Binding event_name, Mode=TwoWay}"/>
+            <TextBox x:Name="txtEvent" Text=
+                     "{Binding event_name, Mode=TwoWay}"/>
             <TextBlock Text="Детали события"/>
-            <TextBox x:Name="txtDescription" Height="60" Text="{Binding details.items[0].caption, Mode=TwoWay}"/>
+            <TextBox x:Name="txtDescription" Height="60"
+                     Text="{Binding details.items[0].caption, Mode=TwoWay}"/>
             <!--<TextBlock Text="Тип события"/>
             <ComboBox Width="298">
                 <ComboBoxItem x:Name="Class1">

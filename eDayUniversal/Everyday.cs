@@ -343,7 +343,7 @@ namespace eDay
     {
         private static LoginData loginData = new LoginData();
         private static ErrorStatus errStatus = new ErrorStatus();
-        public static string OSVersion = "Windows Phone";//Environment.OSVersion.ToString();
+        public static string OSVersion = "Windows 10 UniversalApp";
         public static string SERVER = "http://api.go.pl.ua/"; //"http://everyday.mk.ua/";
         public static List<string> listNotrfications = new List<string>();
         public static string deviceID
@@ -438,7 +438,7 @@ namespace eDay
                 HttpResponseMessage resp = await client.PostAsync(new Uri(SERVER + "ios/Login.php?"), new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded"));
                 resp.EnsureSuccessStatusCode();
                 response = await resp.Content.ReadAsStringAsync();
-
+                client.Dispose();
             }
             catch (Exception ex)
             {
@@ -458,26 +458,74 @@ namespace eDay
 
             if (loginData == null) return;
             string postData = string.Format("Token={0}&Devid={1}&Platform={2}&Query={{\"date_start\":\"{3}\",\"date_end\":\"{4}\", \"grouped\":true}}",
-                                        loginData.token, "bsm10", "Win 8.1", startDate, endDate);
-            HttpClient client = new HttpClient();
+                                        loginData.token, "bsm10", OSVersion, startDate, endDate);
+            try
+            {
+                HttpClient client = new HttpClient();
 
             //Этот метод посылает GET запрос
             //response = await client.GetStringAsync(new Uri(SERVER + "ios/rGetEvents.php?" + postData));
 
-            HttpResponseMessage resp = await client.PostAsync(new Uri(SERVER + "ios/rGetEvents.php?"), new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded") );
+            HttpResponseMessage resp = await client.PostAsync(new Uri(SERVER + "ios/rGetEvents.php?"), 
+                                        new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded") );
             resp.EnsureSuccessStatusCode();
             response = await resp.Content.ReadAsStringAsync();
             if (save_data) await saveStringToLocalFile(response);
+            client.Dispose();
+            }
+            catch (Exception ex)
+            {
+                MessageDialog d = new MessageDialog(ex.Message);
+                await d.ShowAsync();
+            }
         }
         public static async Task AddEvent(int classEvent)
         {
+            string stringUri =string.Empty;
+            string postData=string.Empty;
             AddEvent addEventDialog = new AddEvent();
-            Event newEvent = new Event();
-            newEvent.event_class = classEvent;
-            addEventDialog.DataContext = newEvent;
             var result = await addEventDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
+                try
+                {
+                    DateTime datetime = addEventDialog.eventDatetime;
+                    string text = addEventDialog.eventName + "/r/n" + addEventDialog.eventDescription;
+
+                    switch (classEvent)
+                    {
+                        case 1:
+                            stringUri = SERVER + "ios/PutEventEating.php?";
+                            postData = string.Format("Token={0}&Devid={1}&Platform={2}&Query={{\"datetime\":\"{3}\",\"text\":\"{4}\"}}",
+                                        loginData.token, "bsm10", OSVersion, datetime.ToString("yyyy-MM-dd hh:mm"), text);
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            stringUri = SERVER + "ios/PutEventExercise.php?";
+                            postData = string.Format("Token={0}&Devid={1}&Platform={2}&Query={{\"datetime\":\"{3}\",\"text\":\"{4}\"}}",
+                                        loginData.token, "bsm10", OSVersion, datetime.ToString("yyyy-MM-dd hh:mm"), text);
+                            break;
+                        case 9:
+                            break;
+                    }
+
+                    //http://api.go.pl.ua/ios/PutEventExercise.php?Token=ab34a3ca168ea757b7d8b618a5f15be4&Devid=
+                    //&Platform=Mozilla/5.0%20%28Windows%20NT%206.3;%20WOW64;%20rv:41.0%29%20Gecko/20100101%20Firefox/41.0
+                    //&Query={%22datetime%22:%222016-01-29%2012:00%22,%20%22text%22:%22%D0%9E%D1%82%D0%B6%D0%B8%D0%BC%D0%B0%D0%BD%D0%B8%D1%8F%2025%20%D1%80%D0%B0%D0%B7%22}
+
+                    HttpClient client = new HttpClient();
+                    HttpResponseMessage resp = await client.PostAsync(new Uri(stringUri), 
+                                               new StringContent(postData, Encoding.UTF8, "application/x-www-form-urlencoded"));
+                    resp.EnsureSuccessStatusCode();
+                    response = await resp.Content.ReadAsStringAsync();
+                    client.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    MessageDialog d = new MessageDialog(ex.Message);
+                    await d.ShowAsync();
+                }
 
             }
 

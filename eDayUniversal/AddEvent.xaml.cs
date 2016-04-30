@@ -19,16 +19,23 @@ namespace eDay
 {
     public sealed partial class AddEvent : ContentDialog
     {
+        public DateTime eventDatetime { get; set; }
+        public string eventName { get; set; }
+        public string eventDescription { get; set; }
+
         public AddEvent()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            eventDatetime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, TimePicker.Time.Hours, TimePicker.Time.Minutes,0);
+            eventName = txtEvent.Text;
+            eventDescription = txtDescription.Text;
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+    private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
         }
     }

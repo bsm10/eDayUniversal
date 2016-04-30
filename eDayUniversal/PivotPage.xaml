@@ -141,8 +141,7 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Image">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="0.5"/>
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="Image"/>
-                                        </Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="Image"/>                                        </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
@@ -162,9 +161,9 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="TextBlock">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}"/>
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="Image">
+                                            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="Image">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}"/>
-                                            </ObjectAnimationUsingKeyFrames>
+                                            </ObjectAnimationUsingKeyFrames>-->
                                         </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
@@ -190,15 +189,15 @@
             </Setter>
         </Style>
         <MenuFlyout x:Key="FlyoutAddEventButton">
-            <MenuFlyoutItem Text="Добавить прием пищи" Tag="Assets/new-1.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
-                            Background="#FF7194BF"  />
+            <MenuFlyoutItem x:Name="add_Class1" Text="Добавить прием пищи" Tag="Assets/new-1.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+                            Background="#FF7194BF" Tapped="MenuFlyoutItem_Tapped" />
             <!--""-->
-            <MenuFlyoutItem Text="Добавить прием препаратов" Tag="Assets/new-2.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
-                            Background="#FFB872A4" />
-            <MenuFlyoutItem Text="Добавить упражнение" Tag="Assets/new-3.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
-                            Background="#FFFF9B49" />
-            <MenuFlyoutItem Text="Добавить событие" Tag="Assets/new-9.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
-                            Background="#FF75A456" />
+            <MenuFlyoutItem x:Name="add_Class2" Text="Добавить прием препаратов" Tag="Assets/new-2.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+                            Background="#FFB872A4" Tapped="MenuFlyoutItem_Tapped"/>
+            <MenuFlyoutItem x:Name="add_Class3" Text="Добавить упражнение" Tag="Assets/new-3.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+                            Background="#FFFF9B49" Tapped="MenuFlyoutItem_Tapped"/>
+            <MenuFlyoutItem x:Name="add_Class9" Text="Добавить событие" Tag="Assets/new-9.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+                            Background="#FF75A456" Tapped="MenuFlyoutItem_Tapped"/>
         </MenuFlyout>
     </Page.Resources>
     <FlyoutBase.AttachedFlyout>
