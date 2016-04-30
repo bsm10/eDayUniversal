@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,14 +24,20 @@ namespace eDay
         public string eventName { get; set; }
         public string eventDescription { get; set; }
 
-        public AddEvent()
+        public AddEvent(int eventClass)
         {
             InitializeComponent();
+            Background = ColorEvent.ConvertToColor(eventClass);
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            eventDatetime = new DateTime(DatePicker.Date.Year, DatePicker.Date.Month, DatePicker.Date.Day, TimePicker.Time.Hours, TimePicker.Time.Minutes,0);
+            eventDatetime = new DateTime(DatePicker.Date.Year,
+                                        DatePicker.Date.Month,
+                                        DatePicker.Date.Day,
+                                        TimePicker.Time.Hours,
+                                        TimePicker.Time.Minutes,
+                                        0);
             eventName = txtEvent.Text;
             eventDescription = txtDescription.Text;
         }

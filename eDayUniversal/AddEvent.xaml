@@ -26,7 +26,7 @@
         <Binding Converter="{StaticResource ClassToColor}" Path="event_class"  />
     </ContentDialog.Background>
 
-    <Grid Height="213"
+    <Grid Height="Auto"
           d:DataContext="{Binding [1].eventsByDay[3]}"
           Background="{Binding event_class, Converter={StaticResource ClassToColor}}"
           >

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Text;
-using System.Net;
 using System.IO;
-//using Windows.Web.Http;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-//using Microsoft.Phone.Info;
 using Windows.System.Profile;
 using Windows.Storage.Streams;
 using Windows.Security.Cryptography.Core;
 using Windows.Security.Cryptography;
 using System.Threading.Tasks;
-using System.Threading;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using Newtonsoft.Json;
@@ -483,7 +479,7 @@ namespace eDay
         {
             string stringUri =string.Empty;
             string postData=string.Empty;
-            AddEvent addEventDialog = new AddEvent();
+            AddEvent addEventDialog = new AddEvent(classEvent);
             var result = await addEventDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
@@ -509,10 +505,6 @@ namespace eDay
                         case 9:
                             break;
                     }
-
-                    //http://api.go.pl.ua/ios/PutEventExercise.php?Token=ab34a3ca168ea757b7d8b618a5f15be4&Devid=
-                    //&Platform=Mozilla/5.0%20%28Windows%20NT%206.3;%20WOW64;%20rv:41.0%29%20Gecko/20100101%20Firefox/41.0
-                    //&Query={%22datetime%22:%222016-01-29%2012:00%22,%20%22text%22:%22%D0%9E%D1%82%D0%B6%D0%B8%D0%BC%D0%B0%D0%BD%D0%B8%D1%8F%2025%20%D1%80%D0%B0%D0%B7%22}
 
                     HttpClient client = new HttpClient();
                     HttpResponseMessage resp = await client.PostAsync(new Uri(stringUri), 
@@ -698,22 +690,48 @@ namespace eDay
         }
     }
 
-    public class ColorEvent   
+    public static class ColorEvent   
     {
-        public string class1
-        {
-            get
-            {
-                return ColorClass1;// new SolidColorBrush(Color.FromArgb(0xFF,0x71,0x94,0xBF));
-            }
-        }
-        public string class2 { get; set; }
-        public string class3 { get; set; }
-        public string class9 { get; set; }
+        //public string class1
+        //{
+        //    get
+        //    {
+        //        return ColorClass1;// new SolidColorBrush(Color.FromArgb(0xFF,0x71,0x94,0xBF));
+        //    }
+        //}
+        //public string class2 { get; set; }
+        //public string class3 { get; set; }
+        //public string class9 { get; set; }
 
         public const string ColorClass1 = "#FF7194BF";
         public const string ColorClass2 = "#FFB872A4";
         public const string ColorClass3 = "#FFFF9B49";
         public const string ColorClass9 = "#FF75A456";
+        public static SolidColorBrush ConvertToColor(int eventClass)
+        {
+            switch (eventClass)
+            {
+                case 1:
+                    return GetSolidColorBrush(ColorClass1);//"#FF7194BF";
+                case 2:
+                    return GetSolidColorBrush(ColorClass2);//"#FFB872A4";
+                case 3:
+                    return GetSolidColorBrush(ColorClass3); //"#FFFF9B49";
+                case 9:
+                    return GetSolidColorBrush(ColorClass9); //"#FF75A456";
+            }
+
+            return null;
+        }
+        public static SolidColorBrush GetSolidColorBrush(string hex)
+        {
+            hex = hex.Replace("#", string.Empty);
+            byte a = (byte)(Convert.ToUInt32(hex.Substring(0, 2), 16));
+            byte r = (byte)(Convert.ToUInt32(hex.Substring(2, 2), 16));
+            byte g = (byte)(Convert.ToUInt32(hex.Substring(4, 2), 16));
+            byte b = (byte)(Convert.ToUInt32(hex.Substring(6, 2), 16));
+            SolidColorBrush myBrush = new SolidColorBrush(Color.FromArgb(a, r, g, b));
+            return myBrush;
+        }
     }
 }

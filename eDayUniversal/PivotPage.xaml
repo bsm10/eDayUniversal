@@ -19,7 +19,6 @@
         <local:IntToBool x:Key="IntToBool"/>
         <local:ClassToColor x:Key="ClassToColor"/>
         <local:ConfirmedToOpacity x:Key="CheckToOpacity"/>
-        <local:ColorEvent x:Key="ColorEvent"/>
         <Flyout x:Name="flyoutEvent">
             <local:EventPage/>
         </Flyout>
