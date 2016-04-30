@@ -652,6 +652,17 @@ namespace eDay
 
     public class ColorEvent   
     {
+        public string class1
+        {
+            get
+            {
+                return ColorClass1;// new SolidColorBrush(Color.FromArgb(0xFF,0x71,0x94,0xBF));
+            }
+        }
+        public string class2 { get; set; }
+        public string class3 { get; set; }
+        public string class9 { get; set; }
+
         public const string ColorClass1 = "#FF7194BF";
         public const string ColorClass2 = "#FFB872A4";
         public const string ColorClass3 = "#FFFF9B49";

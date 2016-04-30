@@ -16,11 +16,10 @@
     <Page.Resources>
         <local:DayToColor x:Key="DayToColor"/>
         <local:CheckToVisibility x:Key="CheckToVisibility"/>
-        <!--<JumpListItemBackgroundConverter x:Key="JumpListItemBackgroundConverter"/>-->
         <local:IntToBool x:Key="IntToBool"/>
         <local:ClassToColor x:Key="ClassToColor"/>
         <local:ConfirmedToOpacity x:Key="CheckToOpacity"/>
-        <!--<local:ColorEvent x:Key="ColorEvent"/>-->
+        <local:ColorEvent x:Key="ColorEvent"/>
         <Flyout x:Name="flyoutEvent">
             <local:EventPage/>
         </Flyout>
@@ -118,6 +117,7 @@
                                     <VisualState x:Name="Normal">
                                         <Storyboard>
                                             <PointerUpThemeAnimation Storyboard.TargetName="TextBlock"/>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="Image"/>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="PointerOver">
@@ -125,7 +125,11 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="TextBlock">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="TextBlock"/>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="Image"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Image">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0.5"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="Image"/>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Pressed">
@@ -134,12 +138,19 @@
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                             <PointerDownThemeAnimation Storyboard.TargetName="TextBlock"/>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Image">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0.5"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="Image"/>
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="TextBlock">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Image">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0.5"/>
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -149,6 +160,9 @@
                                     <VisualState x:Name="CheckPlaceholder">
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="TextBlock">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="Image">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
@@ -165,26 +179,25 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <TextBlock x:Name="TextBlock" Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
-
-                            <!--<StackPanel Orientation="Horizontal" Height="50">
-                                <Image Source="Assets/new-1.png" Width="25" HorizontalAlignment="Center" Margin="5,0"/>
-                                <TextBlock x:Name="TextBlock" Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="0,0,5,0" />
-                            </StackPanel>-->
+                            <StackPanel Orientation="Horizontal" Height="50">
+                                <Image x:Name="Image" Source="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                       Width="25" HorizontalAlignment="Center" Margin="5,0"/>
+                                <TextBlock x:Name="TextBlock" Text="{TemplateBinding Text}" VerticalAlignment="Center" Foreground="White" Margin="10,0,5,0" />
+                            </StackPanel>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-
         <MenuFlyout x:Key="FlyoutAddEventButton">
-            <MenuFlyoutItem Text="Добавить прием пищи" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
-                            Background="#FF7194BF" />
-            <MenuFlyoutItem Text="Добавить прием препаратов" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+            <MenuFlyoutItem Text="Добавить прием пищи" Tag="Assets/new-1.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+                            Background="#FF7194BF"  />
+            <!--""-->
+            <MenuFlyoutItem Text="Добавить прием препаратов" Tag="Assets/new-2.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
                             Background="#FFB872A4" />
-            <MenuFlyoutItem Text="Добавить упражнение" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+            <MenuFlyoutItem Text="Добавить упражнение" Tag="Assets/new-3.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
                             Background="#FFFF9B49" />
-            <MenuFlyoutItem Text="Добавить событие" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
+            <MenuFlyoutItem Text="Добавить событие" Tag="Assets/new-9.png" Style="{StaticResource MenuFlyoutItemStyle-ADD}"
                             Background="#FF75A456" />
         </MenuFlyout>
     </Page.Resources>
@@ -222,16 +235,16 @@
     </Grid>
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Uid="AddAppBarButton" x:Name="AddEventButton" Label="добавить" Icon="Add" Flyout="{StaticResource FlyoutAddEventButton}" />
-            <AppBarButton x:Uid="AddAppBarButton" x:Name="MessageButton" Label="уведомления" Icon="Message"  />
-            <AppBarButton x:Uid="AddAppBarButton" x:Name="ProfileButton"  Label="профиль" Icon="ContactPresence" />
-            <AppBarButton x:Uid="AddAppBarButton" x:Name="SettingsButton" Label="настройки" Icon="Setting" />
             <CommandBar.SecondaryCommands>
                 <AppBarToggleButton x:Uid="AllTasks" x:Name="AllTasks" Label="Отображать все задачи" Checked="AllTasks_Checked" Unchecked="AllTasks_Unchecked" />
                 <AppBarToggleButton x:Uid="RepeatBox" x:Name="RepeatBox" Label="Повторять напоминание"/>
                 <AppBarButton x:Uid="CalendarButton" x:Name="CalendarButton" Label="Календарь" Tapped="CalendarButton_Tapped" Flyout="{StaticResource flyoutCalendar}" />
 
             </CommandBar.SecondaryCommands>
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="AddEventButton" Label="добавить" Icon="Add" Flyout="{StaticResource FlyoutAddEventButton}" />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="MessageButton" Label="уведомления" Icon="Message"  />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="ProfileButton"  Label="профиль" Icon="ContactPresence" />
+            <AppBarButton x:Uid="AddAppBarButton" x:Name="SettingsButton" Label="настройки" Icon="Setting" />
         </CommandBar>
 
     </Page.BottomAppBar>
